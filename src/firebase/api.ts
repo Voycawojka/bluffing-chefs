@@ -16,10 +16,27 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export function saveSomething() {
+export type NumberCallback = (value: number) => void
+
+export function subscribeForRandomQueueSize(onUpdate: NumberCallback) {
     firebase
         .firestore()
-        .collection('tests')
-        .doc('bbb')
-        .set({ name: "xd" })
+        .collection('matchMaking')
+        .doc('randomQueue')
+        .onSnapshot(doc => {
+            const data = doc.data()
+            if (data) {
+                onUpdate(data.users.length)
+            }
+        })
+}
+
+export function joinRandomQueue(username: string) {
+    firebase
+        .firestore()
+        .collection('matchMaking')
+        .doc('randomQueue')
+        .update({
+            users: firebase.firestore.FieldValue.arrayUnion(username)
+        })
 }

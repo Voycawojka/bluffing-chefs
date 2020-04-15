@@ -1,10 +1,14 @@
 import * as React from 'react'
 import { useEffect } from 'react'
-import { saveSomething } from '../firebase/api'
+import * as api from '../firebase/api'
 
 const App = () => {
     useEffect(() => {
-        saveSomething()
+        api.subscribeForRandomQueueSize(n => console.log(`Players in queue: ${n}`))
+    }, [])
+
+    useEffect(() => {
+        api.joinRandomQueue(`test-user-${Date.now()}`)
     }, [])
 
     return (
