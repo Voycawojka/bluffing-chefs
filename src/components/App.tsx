@@ -5,15 +5,10 @@ import LandingPage from './LandingPage'
 import Lobby from './Lobby'
 
 const App = () => {
-    const [ playerAmount, setplayerAmount ] = useState<number>(0) 
-    const [ entered, setEntered ] = useState<boolean>(false)
-
-    useEffect(() => {
-        api.subscribeForRandomQueueSize(n => setplayerAmount(n))
-    }, [])
+    const [ entered, setEntered ] = useState(false)
 
     const renderContent = entered 
-    ? <Lobby playerAmount={playerAmount}/> 
+    ? <Lobby /> 
     : <LandingPage setEntered={() => setEntered(true)} />
 
     return (

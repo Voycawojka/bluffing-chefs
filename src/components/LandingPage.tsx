@@ -2,23 +2,20 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import * as api from '../firebase/api'
 import { stringInRange } from '../utils/constraintUtils'
+import { useInputChange } from "../hooks/useInputChange"
 
 const LandingPage = (
     props: {
         setEntered: () => void
     }
 ) => {
-    const [ name, setName ] = useState<string>('') 
+    const [ name, setName ] = useInputChange(15) 
 
-    function joinRandomQueue() {
+    function joinRandomQueue(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+
         api.joinRandomQueue(name)
         props.setEntered()
-    }
-
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.value.length <= 15) {
-            setName(event.target.value)
-        }
     }
 
     return (
@@ -27,9 +24,10 @@ const LandingPage = (
             <form onSubmit={joinRandomQueue}>
                 <input
                     type='text'
+                    name='name'
                     value={name}
                     placeholder='enter username...'
-                    onChange={handleChange}
+                    onChange={setName}
                 />
                 <input
                     type='submit'
