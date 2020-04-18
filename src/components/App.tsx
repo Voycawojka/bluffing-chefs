@@ -1,18 +1,20 @@
 import * as React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import * as api from '../firebase/api'
+import LandingPage from './LandingPage'
+import Lobby from './Lobby'
 
 const App = () => {
-    useEffect(() => {
-        api.subscribeForRandomQueueSize(n => console.log(`Players in queue: ${n}`))
-    }, [])
+    const [ entered, setEntered ] = useState(false)
 
-    useEffect(() => {
-        api.joinRandomQueue(`test-user-${Date.now()}`)
-    }, [])
+    const renderContent = entered 
+    ? <Lobby /> 
+    : <LandingPage setEntered={() => setEntered(true)} />
 
     return (
-        <h1>Halo halo</h1>
+        <>
+        {renderContent}
+        </>
     )
 }
 

@@ -6,7 +6,6 @@
   "scripts": {
     "dev-unix": "parcel watch src/index.html & firebase emulators:start",
     "dev-win": "start /b parcel watch src/index.html & firebase emulators:start",
-    
     "build": "parcel build src/index.html",
     "build-functions": "npm run build --prefix functions/"
   },
