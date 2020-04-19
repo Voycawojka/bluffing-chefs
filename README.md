@@ -1,26 +1,41 @@
 # Dev setup
 
-Run either `dev-unix` or `dev-win` script:
+## Dependencies
 
 ```bash
-$ npm run dev-unix
+npm install
 ```
+
+## Dev server
+
+Run dev server with the following command:
 
 ```bash
-$ npm run dev-win
+$ npm run dev
 ```
 
-It'll start a dev server at [localhost:5000](localhost:5000). Hot reload is enabled.
+It starts a server at (localhost:3000)[localhost:3000] with hot reloading.
 
-In case of an error you may need to login to your firebase account. Install firebase CLI tools and login:
+## Other commands
+
+To watch for changes use respectively:
 
 ```bash
-$ npm install -g firebase-tools
-$ firebase login
+$ npm run watch:front
+$ npm run watch:server
+$ npm run watch # runs above commands
 ```
 
----
-**WARNING**
+To build in production mode use respectively:
 
-Even though the commands above run a development server, they partially operate on a shared, production database.
----
+```bash
+$ npm run build:front
+$ npm run build:server
+$ npm run build # runs above commands
+```
+
+To run server in production mode:
+
+```bash
+npm start
+```
