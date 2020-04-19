@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type InputType = [string, (event: React.ChangeEvent<HTMLInputElement>) => void]
+type InputType = [string, (event: React.ChangeEvent<HTMLInputElement>) => void, () => void]
 
 export const useInputChange: (characterLimit: number) => InputType = (characterLimit: number) => {
     const [input, setInput] = useState('')
@@ -13,5 +13,10 @@ export const useInputChange: (characterLimit: number) => InputType = (characterL
         }
     }
 
-    return [input, handleInputChange]
+    const resetInputValue = () => {        
+        setInput("")
+        
+    }
+
+    return [input, handleInputChange, resetInputValue]
 }
