@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import * as api from '../firebase/api'
+import * as api from '../client/api'
 import LandingPage from './LandingPage'
 import Lobby from './Lobby'
 

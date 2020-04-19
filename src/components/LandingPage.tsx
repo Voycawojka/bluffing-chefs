@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import * as api from '../firebase/api'
+import * as api from '../client/api'
 import { stringInRange } from '../utils/constraintUtils'
 import { useInputChange } from "../hooks/useInputChange"
 
@@ -14,8 +14,7 @@ const LandingPage = (
     function joinRandomQueue(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        api.joinRandomQueue(name)
-        props.setEntered()
+        api.joinRandomQueue(name, () => props.setEntered())
     }
 
     return (

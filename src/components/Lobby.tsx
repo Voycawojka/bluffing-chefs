@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import * as api from '../firebase/api'
+import * as api from '../client/api'
 
 const Lobby = (
 
@@ -8,7 +8,8 @@ const Lobby = (
     const [ playerAmount, setPlayerAmount ] = useState(0) 
 
     useEffect(() => {
-        api.subscribeForRandomQueueSize(amount => setPlayerAmount(amount))
+        const unsubscribe = api.subscribeForRandomQueueSize(amount => setPlayerAmount(amount))
+        return unsubscribe
     }, [])
 
     return (
