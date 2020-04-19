@@ -1,0 +1,63 @@
+env:
+  browser: true
+  es6: true
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 2018
+  sourceType: module
+plugins:
+  - "@typescript-eslint"
+rules:
+  arrow-parens:
+    - error
+    - as-needed
+  brace-style:
+    - error
+    - 1tbs
+  comma-dangle:
+    - error
+    - never
+  eol-last:
+    - error
+    - always
+  indent:
+    - error
+    - 4
+    - SwitchCase: 1
+  line-comment-position:
+    - error
+    - above
+  no-cond-assign:
+    - error
+    - always
+  no-console:
+    - warn
+  no-constant-condition:
+    - warn
+  no-extra-bind:
+    - error
+  no-multiple-empty-lines:
+    - error
+    - max: 2
+  no-unreachable:
+    - error
+  no-use-before-define:
+    - error
+  no-var:
+    - error
+  quotes:
+    - error
+    - double
+    - allowTemplateLiterals: true
+      avoidEscape: true
+  semi:
+    - error
+    - never
+  space-before-function-paren:
+    - error
+    - never
+  yoda:
+    - error
+    - never
