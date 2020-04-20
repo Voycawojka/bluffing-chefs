@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import * as api from '../client/api'
+import config from '../shared/config'
 
 const Lobby = (
 
@@ -14,7 +15,7 @@ const Lobby = (
 
     return (
         <div className='lobby'>
-            <p>Waiting for players: {playerAmount}/4</p>
+            <p>Waiting for players: {playerAmount}/{config.minPlayers}</p>
         </div>
     )
 }
