@@ -22,15 +22,10 @@ const Item = (
                 return <OwnedItem item={props.item}/>
             case 'KNOWN_ITEM':
                 return <KnownItem item={props.item}/>
-            default: return null
         }
     })()
 
-    return (
-        <>
-            {content}
-        </>
-    )
+    return (content)
 }
 
 export default Item
