@@ -6,8 +6,8 @@
   "scripts": {
     "watch:front": "parcel watch src/index.html --out-dir dist/public",
     "watch:server": "tsc src/server/server.ts --esModuleInterop --outDir dist --watch ",
-    "watch": "concurrently 'npm run watch:front' 'npm run watch:server'",
-    "dev": "concurrently --kill-others 'npm run watch' 'nodemon dist/server.js'",
+    "watch": "concurrently \"npm run watch:front\" \"npm run watch:server\"",
+    "dev": "concurrently --kill-others \"npm run watch\" \"nodemon dist/server.js\"",
     "build:front": "parcel build src/index.html --out-dir dist/public",
     "build:server": "tsc src/server/server.ts --esModuleInterop --outDir dist",
     "build": "npm run build:front && npm run build:server",

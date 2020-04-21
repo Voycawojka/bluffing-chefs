@@ -19,7 +19,6 @@ const Message = (
                 return <ItemDeclaration message={props.message}/>
             case 'TRANSACTION':
                 return <Transaction message={props.message}/>
-            default: return null
         }
     })()
 

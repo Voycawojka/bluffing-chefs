@@ -48,8 +48,8 @@ const Chat = () => {
         resetMessage()
     }
 
-    const renderConversation = conversation.map(message => 
-        <Message message={message}/>
+    const renderConversation = conversation.map((message, index) => 
+        <Message message={message} key={index} />
     )
 
     return (
