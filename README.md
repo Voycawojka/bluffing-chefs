@@ -34,6 +34,11 @@ $ npm run build:server
 $ npm run build # runs above commands
 ```
 
+To run tests:
+```bash
+$ npm run test:front
+```
+
 To run server in production mode:
 
 ```bash

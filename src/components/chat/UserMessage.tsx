@@ -1,4 +1,5 @@
 import * as React from 'react'
+import FormattedMessage from './FormattedMessage'
 
 export interface UserMessageObject {
     type: 'USER_MESSAGE'
@@ -13,7 +14,7 @@ const UserMessage = (
     } 
 ) => {
     return (
-        <div>{props.message.user}: {props.message.content} </div>
+        <div>{props.message.user}: <FormattedMessage msg={props.message.content}/> </div>
     )
 }
 
