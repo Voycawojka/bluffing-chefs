@@ -17,13 +17,13 @@ const Chat = () => {
         {
             type: 'ITEM_DECLARATION',
             user: 'Filipesq',
-            item: 'the game',
+            item: 'the [obrazek] potato',
             time: 999
         },
         {
             type: 'USER_MESSAGE',
             user: 'Filipesq',
-            content: 'Lubię placki',
+            content: '~Lubię~ Nienawidzę morelowe _*placki*_ [obrazek]',
             time: 98
         },
         {

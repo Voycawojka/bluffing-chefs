@@ -1,4 +1,5 @@
 import * as React from 'react'
+import DisplayedImage from "./DisplayedImage"
 
 export interface  ItemDeclarationObject {
     type: 'ITEM_DECLARATION'
@@ -13,7 +14,7 @@ const ItemDeclaration = (
     } 
 ) => {
     return (
-        <div>{props.message.user} claims to have {props.message.item}</div>
+        <div>{props.message.user} claims to have <DisplayedImage name={props.message.item}/></div>
     )
 }
 
