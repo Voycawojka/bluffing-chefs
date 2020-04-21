@@ -1,4 +1,5 @@
 import * as React from 'react'
+import DisplayedImage from "./DisplayedImage"
 
 export interface TransactionObject {
     type: 'TRANSACTION'
@@ -15,7 +16,7 @@ const Transaction = (
     } 
 ) => {
     return (
-        <div>{props.message.user1} exchanged {props.message.item1} for {props.message.item2} with {props.message.user2} </div>
+        <div>{props.message.user1} exchanged <DisplayedImage name={props.message.item1}/> for <DisplayedImage name={props.message.item2}/> with {props.message.user2} </div>
     )
 }
 
