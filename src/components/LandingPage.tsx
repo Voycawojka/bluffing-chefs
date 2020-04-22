@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import * as api from '../client/api'
-import { stringInRange } from '../utils/constraintUtils'
+import { stringInRange } from '../shared/utils/constraintUtils'
 import { useInputChange } from "../hooks/useInputChange"
 
 const LandingPage = (

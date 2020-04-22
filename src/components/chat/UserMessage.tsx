@@ -1,16 +1,10 @@
 import * as React from 'react'
 import FormattedMessage from './FormattedMessage'
-
-export interface UserMessageObject {
-    type: 'USER_MESSAGE'
-    user: string,
-    time: number,
-    content: string
-}
+import { UserMessage } from '../../shared/model/message'
 
 const UserMessage = (
     props: {
-        message: UserMessageObject
+        message: UserMessage
     } 
 ) => {
     return (
