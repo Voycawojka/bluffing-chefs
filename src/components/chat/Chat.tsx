@@ -1,41 +1,13 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useInputChange } from '../../hooks/useInputChange'
-import { stringInRange } from '../../utils/constraintUtils'
-import Message, { MessageType } from './Message'
+import { stringInRange } from '../../shared/utils/constraintUtils'
+import { MessageType } from '../../shared/model/message'
+import Message from './Message'
 
 const Chat = () => {
     const [message, setMessage, resetMessage] = useInputChange(100)
-    const [conversation, setConversation] = useState<MessageType[]>([
-        // hardcoded messages
-        {
-            type: 'ITEM_DECLARATION',
-            user: 'Megawonsz9',
-            item: 'pomidor',
-            time: 42
-        },
-        {
-            type: 'ITEM_DECLARATION',
-            user: 'Filipesq',
-            item: 'the [obrazek] potato',
-            time: 999
-        },
-        {
-            type: 'USER_MESSAGE',
-            user: 'Filipesq',
-            content: '~Lubię~ Nienawidzę morelowe _*placki*_ [obrazek]',
-            time: 98
-        },
-        {
-            type: 'TRANSACTION',
-            user1: 'Czesiek z Łynczycy',
-            user2: 'Staszek Alcatraz',
-            item1: 'Polish remover',
-            item2: 'Potato of death',
-            time: 22
-        }
-    ])
-
+    const [conversation, setConversation] = useState<MessageType[]>([])
 
     useEffect(() => {
         // function subscribing conversation 

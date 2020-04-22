@@ -8,3 +8,5 @@ export interface Player {
 export interface PlayerStore {
     [id: string]: Player
 }
+
+export const players: PlayerStore = {}

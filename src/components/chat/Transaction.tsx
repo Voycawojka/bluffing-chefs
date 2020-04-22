@@ -1,22 +1,14 @@
 import * as React from 'react'
 import DisplayedImage from "./DisplayedImage"
-
-export interface TransactionObject {
-    type: 'TRANSACTION'
-    user1: string,
-    user2: string,
-    item1: string,
-    item2: string,
-    time: number
-}
+import { Transaction } from '../../shared/model/message'
 
 const Transaction = (
     props: {
-        message: TransactionObject
+        message: Transaction
     } 
 ) => {
     return (
-        <div>{props.message.user1} exchanged <DisplayedImage name={props.message.item1}/> for <DisplayedImage name={props.message.item2}/> with {props.message.user2} </div>
+        <div>{props.message.user1} exchanged <DisplayedImage name={props.message.user1.item}/> for <DisplayedImage name={props.message.user2.item}/> with {props.message.user2} </div>
     )
 }
 

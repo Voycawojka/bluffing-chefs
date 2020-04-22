@@ -1,5 +1,7 @@
 import { Player } from './players'
 import { Server } from 'socket.io'
+import { inRange } from '../shared/utils/constraintUtils'
+import { getFirstN } from '../shared/utils/iteratorUtils'
 
 export class MatchQueue {
     private static room = 'queue'
@@ -20,11 +22,24 @@ export class MatchQueue {
         return this.queue.size
     }
 
-    emitSize(io: Server) {
+    emitSize(io: Server): void {
         this.emitToWaitingPlayers(io, 'matchMaking/queue/size', this.length)
     }
 
-    emitToWaitingPlayers(io: Server, event: string, ...args: any[]) {
+    emitToWaitingPlayers(io: Server, event: string, ...args: any[]): void {
         io.to(MatchQueue.room).emit(event, args)
     }
+
+    retrievePlayers(minAmmount: number, maxAmmount: number): Player[] | null {
+        if (!inRange(minAmmount, 1, Math.min(maxAmmount, this.length))) {
+            return null
+        }
+
+        const players = getFirstN(this.queue.values(), maxAmmount)
+        players.forEach(player => this.remove(player))
+
+        return players
+    }
 }
+
+export const queue: MatchQueue = new MatchQueue()

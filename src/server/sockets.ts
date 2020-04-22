@@ -1,27 +1,7 @@
 import { Server } from 'socket.io'
-import { MatchQueue } from './queue'
-import { PlayerStore, Player } from './players'
-
-const players: PlayerStore = {}
-const queue: MatchQueue = new MatchQueue()
-
-function setupLobby(player: Player) {
-    const socket = player.socket
-
-    socket.on('matchMaking/queue/join', (username: string) => {
-        console.log(`Player joined queue as ${username}`)
-
-        players[socket.id].username = username
-        queue.add(player)
-
-        socket.emit('matchMaking/queue/joined')
-        queue.emitSize(socket.server)
-    })
-
-    socket.on('matchMaking/queue/size/request', () => {
-        socket.emit('matchMaking/queue/size', queue.length)
-    })
-}
+import { queue } from './queue'
+import { Player, players } from './players'
+import { setupLobby } from './lobby'
 
 export function setupSockets(io: Server) {
     io.on('connection', (socket) => {

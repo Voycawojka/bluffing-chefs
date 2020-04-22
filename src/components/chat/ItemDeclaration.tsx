@@ -1,16 +1,10 @@
 import * as React from 'react'
 import DisplayedImage from "./DisplayedImage"
-
-export interface  ItemDeclarationObject {
-    type: 'ITEM_DECLARATION'
-    user: string,
-    time: number,
-    item: string
-}
+import { ItemDeclaration } from '../../shared/model/message'
 
 const ItemDeclaration = (
     props: {
-        message: ItemDeclarationObject
+        message: ItemDeclaration
     } 
 ) => {
     return (

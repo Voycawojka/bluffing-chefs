@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "watch:front": "parcel watch src/index.html --out-dir dist/public",
-    "watch:server": "tsc src/server/server.ts --esModuleInterop --outDir dist --watch ",
+    "watch:server": "tsc src/server/server.ts --esModuleInterop --target ES5 --outDir dist --watch ",
     "watch": "concurrently \"npm run watch:front\" \"npm run watch:server\"",
-    "dev": "concurrently --kill-others \"npm run watch\" \"nodemon dist/server.js\"",
+    "dev": "concurrently --kill-others \"npm run watch\" \"nodemon dist/server/server.js\"",
     "build:front": "parcel build src/index.html --out-dir dist/public",
-    "build:server": "tsc src/server/server.ts --esModuleInterop --outDir dist",
+    "build:server": "tsc src/server/server.ts --esModuleInterop --target ES5 --outDir dist",
     "build": "npm run build:front && npm run build:server",
     "test:front": "jest",
-    "start": "npm run build && node dist/server.js"
+    "start": "npm run build && node dist/server/server.js"
   },
   "repository": {
     "type": "git",

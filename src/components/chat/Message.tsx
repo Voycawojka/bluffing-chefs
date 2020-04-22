@@ -1,9 +1,8 @@
 import * as React from 'react'
-import UserMessage, { UserMessageObject } from './UserMessage'
-import ItemDeclaration, { ItemDeclarationObject } from './ItemDeclaration'
-import Transaction, { TransactionObject } from './Transaction'
-
-export type MessageType = UserMessageObject | ItemDeclarationObject | TransactionObject
+import { MessageType } from '../../shared/model/message'
+import UserMessage from './UserMessage'
+import ItemDeclaration from './ItemDeclaration'
+import Transaction from './Transaction'
 
 const Message = (
     props: {
@@ -13,11 +12,11 @@ const Message = (
 
     const content = (() => {
         switch(props.message.type) {
-            case 'USER_MESSAGE': 
+            case 'user-message': 
                 return <UserMessage message={props.message}/>
-            case 'ITEM_DECLARATION':
+            case 'item-declaration':
                 return <ItemDeclaration message={props.message}/>
-            case 'TRANSACTION':
+            case 'transaction':
                 return <Transaction message={props.message}/>
         }
     })()

@@ -9,13 +9,24 @@ const Lobby = (
     const [ playerAmount, setPlayerAmount ] = useState(0) 
 
     useEffect(() => {
-        const unsubscribe = api.subscribeForRandomQueueSize(amount => setPlayerAmount(amount))
-        return unsubscribe
+        const unsubQueueSize = api.subscribeForRandomQueueSize(amount => setPlayerAmount(amount))
+        const unsubGameJoin = api.subscribeForGameJoin(() => console.log('Joined a new game!'))
+        
+        return () => {
+            unsubQueueSize()
+            unsubGameJoin()
+            // leave queue
+        }
     }, [])
 
     return (
         <div className='lobby'>
-            <p>Waiting for players: {playerAmount}/{config.minPlayers}</p>
+            <p>Players in the queue: {playerAmount}</p>
+            {playerAmount >= config.minPlayers
+                ? <p>Enough players found. The game will start in {Math.floor(config.waitTimeForMorePlayers / 1000)} seconds</p> // TODO <- this should be an actual counter
+                : <p>Waiting for at least {config.minPlayers} players to start</p>
+            }
+            
         </div>
     )
 }
