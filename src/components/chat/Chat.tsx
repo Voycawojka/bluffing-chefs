@@ -11,16 +11,15 @@ const Chat = () => {
     const [conversation, setConversation] = useState<MessageType[]>([])
 
     useEffect(() => {
-        const unsubMessage = api.subscribeForChatMessage(message => {
-            setConversation([...conversation, message])
-            console.log(message)
-        })
+        const unsubMessage = api.subscribeForChatMessage(message => 
+            setConversation(conversation => [...conversation, message])
+        )
 
         return () => {
             unsubMessage()
         }
     }, [])
-
+    
     function submitMessage(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         api.sendMessage(message)
