@@ -1,12 +1,9 @@
 import * as React from 'react'
-
-export interface HiddenItemObject {
-    type: 'HIDDEN_ITEM'
-}
+import { UnknownItem } from '../../shared/model/item'
 
 const HiddenItem = (
     props: {
-        item: HiddenItemObject
+        item: UnknownItem
     }
 ) => {
 

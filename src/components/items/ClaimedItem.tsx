@@ -1,20 +1,18 @@
 import * as React from 'react'
+import { KnownClaimedItem, UnknownClaimedItem } from '../../shared/model/item'
 
-export interface ClaimedItemObject {
-    type: 'CLAIMED_ITEM',
-    name: string
-}
-
+// TODO probably want to divide it into two components
 const ClaimedItem = (
     props: {
-        item: ClaimedItemObject
+        item: KnownClaimedItem | UnknownClaimedItem
     }
 ) => {
 
 
     return (
         <div>
-            {props.item.name}?
+            {props.item.claimedAs}
+            {props.item.type === 'known-claimed-item' ? `(${props.item.name} for real)` : '?'}
         </div>
     )
 }

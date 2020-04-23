@@ -2,6 +2,7 @@ import { Player, players } from "./players";
 import { Server } from "socket.io";
 import { MessageType, UserMessage } from "../shared/model/message";
 import { StartingData } from "../shared/model/game";
+import { PlayersItem } from "../shared/model/item";
 
 // TODO seperate manager for items
 const availableItems = [
@@ -14,17 +15,17 @@ const availableItems = [
 ]
 
 function getRandomItem(from: string[] = availableItems): string {
-    return availableItems[Math.floor(Math.random() * from.length)]
+    return from[Math.floor(Math.random() * from.length)]
 }
 
 function getRandomItems(ammount: number, from: string[] = availableItems): string[] {
-    return Array(ammount).map(() => getRandomItem(from))
+    return Array.from({ length: ammount }).map(() => getRandomItem(from))
 }
 
 export class Game {
     private id: number
     private messages: MessageType[] = []
-    private playerItems: { [username: string]: string[] } = {}
+    private playerItems: { [username: string]: PlayersItem[] } = {}
     private neededItems: { [username: string]: string[] } = {}
     private allItems: string[] = []
 
@@ -35,7 +36,7 @@ export class Game {
             player.socket.join(this.roomName)
             
             const items = getRandomItems(5)
-            this.playerItems[player.username] = items
+            this.playerItems[player.username] = items.map(item => ({ type: 'known-item', name: item }))
             this.allItems.push(...items)
 
             player.socket.on('game/sendMessage', (content: string) => {
@@ -70,7 +71,7 @@ export class Game {
     }
 
     emitToPlayers(event: string, ...args: any[]): void {
-        this.io.to(this.roomName).emit(event, args)
+        this.io.to(this.roomName).emit(event, ...args)
     }
 
     private startingDataForPlayer(player: Player): StartingData {
