@@ -8,7 +8,7 @@ const ItemDeclaration = (
     } 
 ) => {
     return (
-        <div>{props.message.user} claims to have <DisplayedImage name={props.message.item}/></div>
+        <div>{props.message.user} claims to have <DisplayedImage name={props.message.item.claimedAs}/></div>
     )
 }
 
