@@ -1,5 +1,7 @@
+import { PlayersItem } from "./item";
+
 export interface StartingData {
-    items: string[]
+    items: PlayersItem[]
     neededItems: string[]
     allItems: string[]
     players: string[]

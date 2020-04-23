@@ -1,13 +1,9 @@
 import * as React from 'react'
-
-export interface KnownItemObject {
-    type: 'KNOWN_ITEM',
-    name: string
-}
+import { KnownItem } from '../../shared/model/item'
 
 const KnownItem = (
     props: {
-        item: KnownItemObject
+        item: KnownItem
     }
 ) => {
 
