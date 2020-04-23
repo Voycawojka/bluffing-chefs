@@ -14,11 +14,11 @@ const availableItems = [
 ]
 
 function getRandomItem(from: string[] = availableItems): string {
-    return availableItems[Math.floor(Math.random() * from.length)]
+    return from[Math.floor(Math.random() * from.length)]
 }
 
 function getRandomItems(ammount: number, from: string[] = availableItems): string[] {
-    return Array(ammount).map(() => getRandomItem(from))
+    return Array.from({ length: ammount }).map(() => getRandomItem(from))
 }
 
 export class Game {

@@ -4,18 +4,26 @@ import { useInputChange } from '../../hooks/useInputChange'
 import { stringInRange } from '../../shared/utils/constraintUtils'
 import { MessageType } from '../../shared/model/message'
 import Message from './Message'
+import * as api from '../../client/api'
 
 const Chat = () => {
     const [message, setMessage, resetMessage] = useInputChange(100)
     const [conversation, setConversation] = useState<MessageType[]>([])
 
     useEffect(() => {
-        // function subscribing conversation 
+        const unsubMessage = api.subscribeForChatMessage(message => {
+            setConversation([...conversation, message])
+            console.log(message)
+        })
+
+        return () => {
+            unsubMessage()
+        }
     }, [])
 
     function submitMessage(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        // submiting message
+        api.sendMessage(message)
 
         resetMessage()
     }

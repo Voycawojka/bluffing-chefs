@@ -1,20 +1,18 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import * as api from '../client/api'
 import { stringInRange } from '../shared/utils/constraintUtils'
 import { useInputChange } from "../hooks/useInputChange"
+import { AppContext } from './appProvider/AppProvider'
 
-const LandingPage = (
-    props: {
-        setEntered: () => void
-    }
-) => {
+const LandingPage = () => {
+    const context = useContext(AppContext)
     const [ name, setName ] = useInputChange(15) 
 
     function joinRandomQueue(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        api.joinRandomQueue(name, () => props.setEntered())
+        api.joinRandomQueue(name, () => context.setStatus('queued'))
     }
 
     return (

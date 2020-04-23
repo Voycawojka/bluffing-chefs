@@ -32,7 +32,7 @@ export function subscribeForChatMessage(onUpdate: Callback<MessageType>): Unsubs
     return () => socket.removeListener('game/receivedMessage')
 }
 
-export function sendMessage(message: UserMessage): void {
+export function sendMessage(message: string): void {
     socket.emit('game/sendMessage', message)
 }
 

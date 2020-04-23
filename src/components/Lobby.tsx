@@ -1,16 +1,19 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import * as api from '../client/api'
 import config from '../shared/config'
+import { AppContext } from './appProvider/AppProvider'
 
 const Lobby = (
 
 ) => {
+    const context = useContext(AppContext)
+
     const [ playerAmount, setPlayerAmount ] = useState(0) 
 
     useEffect(() => {
         const unsubQueueSize = api.subscribeForRandomQueueSize(amount => setPlayerAmount(amount))
-        const unsubGameJoin = api.subscribeForGameJoin(() => console.log('Joined a new game!'))
+        const unsubGameJoin = api.subscribeForGameJoin(() => context.setStatus('in-game'))
         
         return () => {
             unsubQueueSize()
