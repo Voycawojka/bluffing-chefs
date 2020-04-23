@@ -1,3 +1,5 @@
+import { UnknownClaimedItem } from "./item";
+
 export interface UserMessage {
     type: 'user-message',
     user: string,
@@ -9,12 +11,12 @@ export interface ItemDeclaration {
     type: 'item-declaration',
     user: string,
     time: number,
-    item: string
+    item: UnknownClaimedItem
 }
 
 interface Trader {
     name: string,
-    item: string
+    item: UnknownClaimedItem
 }
 
 export interface Transaction {
