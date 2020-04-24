@@ -1,8 +1,10 @@
 import { Player, players } from "./players";
 import { Server } from "socket.io";
 import { MessageType, UserMessage } from "../shared/model/message";
-import { StartingData } from "../shared/model/game";
-import { PlayersItem } from "../shared/model/item";
+import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferErrorResponse, OfferSuccessResponse, CancelOfferResponse } from "../shared/model/game";
+import { PlayersItem, KnownClaimedItem } from "../shared/model/item";
+import { ClaimItemErrorResponse } from '../shared/model/game'
+import { Market } from "./market";
 
 // TODO seperate manager for items
 const availableItems = [
@@ -28,6 +30,7 @@ export class Game {
     private playerItems: { [username: string]: PlayersItem[] } = {}
     private neededItems: { [username: string]: string[] } = {}
     private allItems: string[] = []
+    private market = new Market()
 
     constructor(private io: Server, private players: Player[]) {
         this.id = Date.now()
@@ -49,19 +52,108 @@ export class Game {
                     content
                 }
 
-                this.messages.push(message)
-                this.emitToPlayers('game/receivedMessage', message)
+                this.emitChatMessage(message)
             })
 
             player.socket.on('game/startingData/request', () => {
                 player.socket.emit('game/startingData', this.startingDataForPlayer(player))
             })
 
-            player.socket.on('game/claimItem', (index: number, asItem: string) => {
-                // TODO claiming items
+            player.socket.on('game/claimItem', (req: ClaimItemRequest) => {
+                if (!this.allItems.includes(req.asItem)) {
+                    const response: ClaimItemErrorResponse = {
+                        success: false,
+                        errorMessage: `Cannot claim '${req.asItem}' because it's not in this game`
+                    }
+
+                    player.socket.emit('game/claimedItem', response)
+                    return
+                }
+
+                const item: KnownClaimedItem = {
+                    type: 'known-claimed-item',
+                    name: this.playerItems[player.username][req.itemIndex].name,
+                    claimedAs: req.asItem
+                }
+
+                this.playerItems[player.username][req.itemIndex] = item
+
+                const response: ClaimItemSuccessResponse = {
+                    success: true,
+                    itemData: item
+                }
+
+                player.socket.emit('game/claimedItem', response)
+                this.emitChatMessage({
+                   type: 'item-declaration',
+                   user: player.username,
+                   time: Date.now(),
+                   item: {
+                       type: 'unknown-claimed-item',
+                       claimedAs: item.claimedAs
+                   } 
+                })
             })
 
-            // TODO rest of the formal actions
+            player.socket.on('game/makeOffer', (req: OfferRequest) => {
+                const playerItem = this.playerItems[player.username][req.playerItemIndex]
+                const opponentItem = this.playerItems[req.toPlayer][req.opponentItemIndex]
+
+                if (!this.canBeExchanged(playerItem) || !this.canBeExchanged(opponentItem)) {
+                    const response: OfferErrorResponse = {
+                        success: false,
+                        errorMessage: 'Provided items cannot be exchanged'
+                    }
+
+                    player.socket.emit('game/madeOffer', response)
+                    return
+                }
+
+                const opponent = this.getPlayer(req.toPlayer)
+
+                if (!opponent) {
+                    const response: OfferErrorResponse = {
+                        success: false,
+                        errorMessage: `Player '${req.toPlayer}' isn't participating in this game`
+                    }
+
+                    player.socket.emit('game/madeOffer', response)
+                    return
+                }
+
+                const offer = this.market.addOffer(player.username, req.toPlayer, req.playerItemIndex, req.opponentItemIndex)
+
+                if (!offer) {
+                    const response: OfferErrorResponse = {
+                        success: false,
+                        errorMessage: `Cannot make this offer, perhaps '${playerItem.name}' is already offered`
+                    }
+
+                    player.socket.emit('game/madeOffer', response)
+                    return
+                }
+
+                const response: OfferSuccessResponse = {
+                    success: true,
+                    offerData: offer
+                }
+
+                player.socket.emit('game/madeOffer', response)
+                opponent.socket.emit('game/gotOffer', offer)
+            })
+
+            player.socket.on('game/cancelOffer', (id: string) => {
+                const offer = this.market.getOffer(id)
+                const cancelled = this.market.cancelOffer(player.username, id)
+                const response: CancelOfferResponse = cancelled 
+                    ? { status: true }
+                    : { status: false, errorMessage: `Cannot cancel offer '${id}, perhaps is wasn't made by the player or don't exist anymore` }
+
+                if (offer) {
+                    player.socket.emit('game/canceledOffer', id)
+                    this.getPlayer(offer.to)?.socket.emit('game/canceledOffer', id)
+                }
+            })
         })
 
         players.forEach(player => {
@@ -72,6 +164,15 @@ export class Game {
 
     emitToPlayers(event: string, ...args: any[]): void {
         this.io.to(this.roomName).emit(event, ...args)
+    }
+
+    emitChatMessage(message: MessageType): void {
+        this.messages.push(message)
+        this.emitToPlayers('game/receivedMessage', message)
+    }
+
+    canBeExchanged(item: PlayersItem): boolean {
+        return typeof item !== 'undefined' && item.type === 'known-claimed-item'
     }
 
     private startingDataForPlayer(player: Player): StartingData {
@@ -85,6 +186,10 @@ export class Game {
 
     private get roomName(): string {
         return `room-${this.id}`
+    }
+
+    private getPlayer(username: string): Player | undefined {
+        return this.players.find(player => player.username === username)
     }
 }
 
