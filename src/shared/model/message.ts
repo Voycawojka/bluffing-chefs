@@ -1,4 +1,4 @@
-import { UnknownClaimedItem } from "./item";
+import { UnknownClaimedItem, Indexed } from "./item";
 
 export interface UserMessage {
     type: 'user-message',
@@ -11,12 +11,12 @@ export interface ItemDeclaration {
     type: 'item-declaration',
     user: string,
     time: number,
-    item: UnknownClaimedItem
+    item: UnknownClaimedItem & Indexed
 }
 
 interface Trader {
     name: string,
-    item: UnknownClaimedItem
+    item: UnknownClaimedItem & Indexed
 }
 
 export interface Transaction {

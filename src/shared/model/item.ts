@@ -1,3 +1,7 @@
+export interface Indexed {
+    index: number
+}
+
 export interface KnownItem {
     type: 'known-item'
     name: string

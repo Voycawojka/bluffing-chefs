@@ -90,7 +90,8 @@ export class Game {
                    time: Date.now(),
                    item: {
                        type: 'unknown-claimed-item',
-                       claimedAs: item.claimedAs
+                       claimedAs: item.claimedAs,
+                       index: req.itemIndex
                    } 
                 })
             })
