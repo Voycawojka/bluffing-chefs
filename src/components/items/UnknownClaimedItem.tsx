@@ -9,7 +9,7 @@ const UnknownClaimedItem = (
 
 
     return (
-        <div>
+        <div className="items__item">
             claimed as : {props.item.claimedAs}
         </div>
     )

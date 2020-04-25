@@ -8,9 +8,8 @@ const KnownClaimedItem = (
     }
 ) => {
 
-
     return (
-        <div>
+        <div className="items__item">
             {props.item.name} claimed as {props.item.claimedAs} 
         </div>
     )

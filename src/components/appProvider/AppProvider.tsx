@@ -14,8 +14,8 @@ const AppProvider = (
         children: React.ReactNode
     }
 ) => {
-    const [status, setStatus] = useState<Status>("start")
-
+    const [status, setStatus] = useState<Status>('start')
+    
     return (
         <AppContext.Provider value={{
             status: status,

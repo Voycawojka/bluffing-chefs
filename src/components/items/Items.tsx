@@ -12,9 +12,9 @@ const Items = (
     )
 
     return (
-        <div>
+        <>
             {renderItems}
-        </div>
+        </>
     )
 }
 

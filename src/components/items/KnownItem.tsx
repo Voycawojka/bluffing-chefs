@@ -7,9 +7,8 @@ const KnownItem = (
     }
 ) => {
 
-
     return (
-        <div>
+        <div className="items__item">
             {props.item.name}
         </div>
     )

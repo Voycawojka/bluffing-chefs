@@ -9,7 +9,7 @@ const UnknownItem = (
 
 
     return (
-        <div>
+        <div className="items__item">
             ?
         </div>
     )

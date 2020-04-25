@@ -10,10 +10,11 @@ const Game = () => {
     const [data, setData] = useState<StartingData | null>(null)
 
     useEffect(() => {
-        api.getStartingData(data => {
-            console.log(data)
-            setData(data)
-        })
+        api.getStartingData()
+            .then(data => {
+                console.log(data)
+                setData(data)
+            })
     }, [])
 
     function getKnownItems(items: string[]): KnownItem[] {
@@ -33,18 +34,19 @@ const Game = () => {
             <div className='game'>
                ingame
                <Chat />
-               <div>
-                    All Items:
+
+               All Items:
+               <div className="items__list">  
                     <Items items={getKnownItems(data.allItems)}/>
                </div>
 
-               <div>
-                    My Items:
+                My Items:
+               <div className="items__list">    
                     <Items items={data.items}/>
                </div>
 
-               <div>
-                    Needed Items:
+               Needed Items:
+               <div className="items__list">
                     <Items items={getKnownItems(data.neededItems)}/>
                </div>
             </div>
