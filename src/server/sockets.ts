@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
-import { queue } from './queue'
-import { Player, players } from './players'
-import { setupLobby } from './lobby'
+import { queue } from './lobby/queue'
+import { Player, players } from './game/players'
+import { setupLobby } from './lobby/lobby'
 
 export function setupSockets(io: Server) {
     io.on('connection', (socket) => {

@@ -1,4 +1,9 @@
-import { PlayersItem, KnownClaimedItem, UnknownClaimedItem } from "./item";
+import { PlayersItem, KnownClaimedItem, UnknownClaimedItem, KnownItem } from "./item";
+
+export interface ErrorResponse {
+    success: false
+    errorMessage: string
+}
 
 export interface StartingData {
     items: PlayersItem[]
@@ -19,12 +24,7 @@ export interface ClaimItemSuccessResponse {
     itemData: KnownClaimedItem
 }
 
-export interface ClaimItemErrorResponse {
-    success: false
-    errorMessage: string
-}
-
-export type ClaimItemResponse = ClaimItemSuccessResponse | ClaimItemErrorResponse
+export type ClaimItemResponse = ClaimItemSuccessResponse | ErrorResponse
 
 // Offer
 
@@ -47,20 +47,26 @@ export interface OfferSuccessResponse {
     offerData: Offer
 }
 
-export interface OfferErrorResponse {
-    success: false
-    errorMessage: string
-}
-
-export type OfferResponse = OfferErrorResponse
+export type OfferResponse = OfferSuccessResponse | ErrorResponse
 
 export interface CancelOfferSuccessResponse {
-    status: true
+    success: true
+    id: string
 }
 
-export interface CancelOfferErrorResponse {
-    status: false
-    errorMessage: string
+export type CancelOfferResponse = CancelOfferSuccessResponse | ErrorResponse
+
+export interface RejectOfferSuccessResponse {
+    success: true
+    id: string
 }
 
-export type CancelOfferResponse = CancelOfferSuccessResponse | CancelOfferErrorResponse
+export type RejectOfferResponse = RejectOfferSuccessResponse | ErrorResponse
+
+export interface AcceptOfferSuccessResponse {
+    success: true
+    id: string
+    gotItem: KnownItem
+}
+
+export type AcceptOfferResponse = AcceptOfferSuccessResponse | ErrorResponse
