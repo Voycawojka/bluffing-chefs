@@ -1,7 +1,7 @@
-import { Player, players } from "./players"
+import { Player, players } from "../game/players"
 import { queue } from "./queue"
-import config from "../shared/config"
-import { Game, games } from "./game"
+import config from "../../shared/config"
+import { Game, games } from "../game/game"
 import { Server } from "socket.io"
 
 function tryCreateGame(io: Server) {
@@ -18,12 +18,9 @@ function tryCreateGame(io: Server) {
                 socket.removeAllListeners('matchMaking/queue/size/request')
             })
 
-            console.log(`Creating a new game with ${players.length} players [${players.map(player => player.username).join(',')}]`)
-
             const game = new Game(io, players)
             games.push(game)
 
-            // TODO send game data
             game.emitToPlayers('matchMaking/joinedGame')
             queue.emitSize(io)
         }, config.waitTimeForMorePlayers)
