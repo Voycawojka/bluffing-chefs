@@ -1,7 +1,7 @@
-import { Player } from './players'
+import { Player } from '../game/players'
 import { Server } from 'socket.io'
-import { inRange } from '../shared/utils/constraintUtils'
-import { getFirstN } from '../shared/utils/iteratorUtils'
+import { inRange } from '../../shared/utils/constraintUtils'
+import { getFirstN } from '../../shared/utils/iteratorUtils'
 
 export class MatchQueue {
     private static room = 'queue'

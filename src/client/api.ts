@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import { MessageType, UserMessage } from '../shared/model/message'
-import { StartingData, ClaimItemRequest, ClaimItemResponse, ClaimItemSuccessResponse, OfferResponse, OfferRequest, Offer } from '../shared/model/game'
+import { StartingData, ClaimItemRequest, ClaimItemResponse, ClaimItemSuccessResponse, OfferResponse, OfferRequest, Offer, CancelOfferResponse, CancelOfferSuccessResponse, OfferSuccessResponse, RejectOfferSuccessResponse, RejectOfferResponse } from '../shared/model/game'
 
 const socket = io()
 
@@ -69,8 +69,8 @@ export function claimItem(itemIndex: number, asItem: string): Promise<ClaimItemS
     })
 }
 
-export function makeOffer(toPlayer: string, playerItemIndex: number, opponentItemIndex: number): Promise<OfferResponse> {
-    return new Promise<OfferResponse>((resolve, reject) => {
+export function makeOffer(toPlayer: string, playerItemIndex: number, opponentItemIndex: number): Promise<OfferSuccessResponse> {
+    return new Promise<OfferSuccessResponse>((resolve, reject) => {
         socket.on('game/madeOffer', (response: OfferResponse) => {
             socket.removeListener('game/madeOffer')
 
@@ -91,11 +91,42 @@ export function subscribeForOffers(onUpdate: Callback<Offer>): UnsubscribeFn {
     return () => socket.removeListener('game/gotOffer')
 }
 
-export function cancelOffer(id: string): void {
-    socket.emit('game/cancelOffer', id)
+export function cancelOffer(id: string): Promise<CancelOfferSuccessResponse> {
+    return new Promise<CancelOfferSuccessResponse>((resolve, reject) => {
+        socket.on('game/canceledOwnOffer', (response: CancelOfferResponse) => {
+            socket.removeListener('game/canceledOwnOffer')
+
+            if (response.success) {
+                resolve(response)
+            } else {
+                reject(response)
+            }
+        })
+        socket.emit('game/cancelOffer', id)
+    })
 }
 
-export function subscribeForCancelledOffers(onUpdate: Callback<OfferResponse>): UnsubscribeFn {
-    socket.on('game/canceledOffer', (offer: OfferResponse) => onUpdate(offer))
+export function subscribeForCancelledOffers(onUpdate: Callback<CancelOfferSuccessResponse>): UnsubscribeFn {
+    socket.on('game/canceledOffer', (response: CancelOfferSuccessResponse) => onUpdate(response))
     return () => socket.removeListener('game/canceledOffer')
 }
+
+export function rejectOffer(id: string): Promise<RejectOfferSuccessResponse> {
+    return new Promise<RejectOfferSuccessResponse>((resolve, reject) => {
+        socket.on('game/rejectedOwnOffer', (response: RejectOfferResponse) => {
+            socket.removeListener('game/rejectedOwnOffer')
+
+            if (response.success) {
+                resolve(response)
+            } else {
+                reject(response)
+            }
+        })
+    })
+}
+
+export function subscribeForRejectedOffers(onUpdate: Callback<RejectOfferSuccessResponse>): UnsubscribeFn {
+    socket.on('game/rejectedOffer', (response: RejectOfferSuccessResponse) => onUpdate(response))
+    return () => socket.removeListener('game/rejectedOffer')
+}
+ 
