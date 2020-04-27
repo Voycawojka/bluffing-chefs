@@ -207,7 +207,7 @@ export class Game {
             const opponent = this.getPlayer(offer?.from)
             
             if (!offer || !accepted || !opponent) {
-                this.respondWithError(player, 'game/acceptedOwnOffer', `Cannor accept offer '${id}', perhabs it wasn't for the player or doesn't exist anymore`)
+                this.respondWithError(player, 'game/acceptedOwnOffer', `Cannot accept offer '${id}', perhabs it wasn't for the player or doesn't exist anymore`)
                 return
             }
 
