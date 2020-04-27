@@ -14,7 +14,7 @@ export const useInputChange: (characterLimit: number) => InputType = (characterL
     }
 
     const resetInputValue = () => {        
-        setInput("")
+        setInput('')
         
     }
 

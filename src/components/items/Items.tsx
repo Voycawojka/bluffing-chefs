@@ -8,7 +8,7 @@ const Items = (
 ) => {
 
     const renderItems = props.items.map((item, index) =>
-        <Item item={item} key={index} />
+        <Item item={item} key={index} index={index}  />
     )
 
     return (

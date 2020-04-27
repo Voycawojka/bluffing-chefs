@@ -32,10 +32,10 @@ const Chat = () => {
     )
 
     return (
-       <div className='chat'>
-           <div className='chat__conversation'>
+        <div className='chat'>
+            <div className='chat__conversation'>
                 {renderConversation}
-           </div>
+            </div>
             <form onSubmit={submitMessage}>
                 <input
                     type='text'
@@ -48,7 +48,7 @@ const Chat = () => {
                     disabled={!stringInRange(message, 1, 100)}
                 />
             </form>     
-       </div>
+        </div>
     )
 }
 

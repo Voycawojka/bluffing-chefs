@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-type Status = "start" | "queued" | "in-game"
+type Status = 'start' | 'queued' | 'in-game'
 
 interface ContextState {
     status: Status,

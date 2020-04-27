@@ -1,19 +1,22 @@
 import * as React from 'react'
 import { useEffect, useState, useContext } from 'react'
 import * as api from '../../client/api'
-import { StartingData } from '../../shared/model/game'
 import Chat from '../chat/Chat'
 import Items from '../items/Items'
-import { KnownItem } from "../../shared/model/item"
+import { KnownItem } from '../../shared/model/item'
+import { GameContext } from '../gameProvider/GameProvider'
+import DisplayItem from '../items/DisplayItem'
+import Offers from '../offers/Offers'
 
 const Game = () => {
-    const [data, setData] = useState<StartingData | null>(null)
-
+    const gameContext = useContext(GameContext)
+    
     useEffect(() => {
         api.getStartingData()
             .then(data => {
                 console.log(data)
-                setData(data)
+                gameContext.setInitialData(data)
+                
             })
     }, [])
 
@@ -28,29 +31,41 @@ const Game = () => {
         })
     }
 
-    if (data) {
+    if (gameContext.allItems !== []) {
+
+        const renderEnemies = gameContext.opponents.map(opponent => 
+            <div className="items__list">
+                {opponent.name}
+                <Items items={opponent.items}/>
+            </div>
+        )
 
         return (
             <div className='game'>
                ingame
-               <Chat />
+                <Chat />
 
                All Items:
-               <div className="items__list">  
-                    <Items items={getKnownItems(data.allItems)}/>
-               </div>
+                <div className="items__list">  
+                    {gameContext.allItems.map(item => <DisplayItem item={item} />)}
+                </div>
 
                 My Items:
-               <div className="items__list">    
-                    <Items items={data.items}/>
-               </div>
+                <div className="items__list">    
+                    <Items items={gameContext.items} />
+                </div>
 
                Needed Items:
-               <div className="items__list">
-                    <Items items={getKnownItems(data.neededItems)}/>
-               </div>
+                <div className="items__list">
+                    {gameContext.neededItems.map(item => <DisplayItem item={item} />)}
+                </div>
+
+                Enemies:
+                {renderEnemies}
+
+                <Offers />
             </div>
-         )
+        )
     } else {
         return null
     }

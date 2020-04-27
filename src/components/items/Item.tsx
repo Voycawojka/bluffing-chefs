@@ -3,13 +3,14 @@ import UnknownItem from './UnknownItem'
 import KnownClaimedItem from './KnownClaimedItem'
 import UnknownClaimedItem from './UnknownClaimedItem'
 import KnownItem from './KnownItem'
-import { OpponentsItem, PlayersItem } from "../../shared/model/item"
+import { OpponentsItem, PlayersItem } from '../../shared/model/item'
 
 export type ItemObject = OpponentsItem | PlayersItem
 
 const Item = (
     props: {
-        item: ItemObject
+        item: ItemObject,
+        index: number
     }
 ) => {
 
@@ -22,7 +23,7 @@ const Item = (
             case 'unknown-claimed-item':
                 return <UnknownClaimedItem item={props.item}/>
             case 'known-item':
-                return <KnownItem item={props.item}/>
+                return <KnownItem item={props.item} index={props.index} />
         }
     })()
 

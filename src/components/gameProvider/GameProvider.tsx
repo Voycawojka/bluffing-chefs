@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StartingData } from '../../shared/model/game'
 import { PlayersItem, OpponentsItem, UnknownClaimedItem } from '../../shared/model/item'
-import { ItemDeclaration, Transaction } from "../../shared/model/message";
+import { ItemDeclaration, Transaction } from '../../shared/model/message'
+import { Offer } from '../../shared/model/game'
 
-interface Opponent {
+export interface Opponent {
     name: string,
     items: OpponentsItem[]
 }
@@ -14,9 +15,15 @@ interface GameData {
     allItems: string[]
     opponents: Opponent[]
     userName: string
+    offers: Offer[]
+    setInitialData: (data: StartingData) => void
+    handleDeclarationFromMessage: (declaration: ItemDeclaration) => void
+    setUserName: React.Dispatch<React.SetStateAction<string>>
+    setOffers: React.Dispatch<React.SetStateAction<Offer[]>>
+    handleTransactionFromMessage: (transaction: Transaction) =>  void
 }
 
-export const AppContext = React.createContext<GameData>({} as GameData)
+export const GameContext = React.createContext<GameData>({} as GameData)
 
 const GameProvider = (
     props: {
@@ -27,7 +34,8 @@ const GameProvider = (
     const [neededItems, setNeededItems] = useState<string[]>([])
     const [allItems, setAllItems] = useState<string[]>([])
     const [opponents, setOpponents] = useState<Opponent[]>([])
-    const [userName, setUserName] = useState<string>("")
+    const [userName, setUserName] = useState<string>('')
+    const [offers, setOffers] = useState<Offer[]>([])
 
     const setInitialData = (data: StartingData) => {
         setItems(data.items)
@@ -40,8 +48,8 @@ const GameProvider = (
                     return ({
                         name: player,
                         items: Array(5).fill({ type: 'unknown-item' })
+                    })
                 })
-            })
         )
     }
 
@@ -58,7 +66,7 @@ const GameProvider = (
                     type: 'unknown-claimed-item',
                     claimedAs: declaration.item.claimedAs
                 })
-                return data
+                return [...data]
             })
         } else {
             setItems(data => {
@@ -67,7 +75,7 @@ const GameProvider = (
                     claimedAs: declaration.item.claimedAs,
                     name: data[index].name
                 })
-                return data
+                return [...data]
             }) 
         }
     }
@@ -87,22 +95,28 @@ const GameProvider = (
 
                 setOpponents(data => {
                     data[opponentIndex].items[trader.item.index] = { type: 'unknown-item' }
-                    return data
+                    return [...data]
                 })
             })
         }
     }
     
     return (
-        <AppContext.Provider value={{
+        <GameContext.Provider value={{
             items,
             neededItems,
             allItems,
             opponents,
-            userName
+            userName,
+            offers,
+            setOffers,
+            setInitialData,
+            handleDeclarationFromMessage,
+            setUserName,
+            handleTransactionFromMessage
         }}>
             {props.children}
-        </AppContext.Provider>
+        </GameContext.Provider>
     )
 }
 

@@ -25,9 +25,11 @@ const Lobby = (
     return (
         <div className='lobby'>
             <p>Players in the queue: {playerAmount}</p>
-            {playerAmount >= config.minPlayers
-                ? <p>Enough players found. The game will start in {Math.floor(config.waitTimeForMorePlayers / 1000)} seconds</p> // TODO <- this should be an actual counter
-                : <p>Waiting for at least {config.minPlayers} players to start</p>
+            {
+                playerAmount >= config.minPlayers
+                // TODO this should be an actual counter
+                    ? <p>Enough players found. The game will start in {Math.floor(config.waitTimeForMorePlayers / 1000)} seconds</p> 
+                    : <p>Waiting for at least {config.minPlayers} players to start</p>
             }
             
         </div>

@@ -22,9 +22,9 @@ const Message = (
     })()
 
     return (
-       <div className='message'>
-           {content}
-       </div>
+        <div className='message'>
+            {content}
+        </div>
     )
 }
 

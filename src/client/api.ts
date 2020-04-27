@@ -129,4 +129,3 @@ export function subscribeForRejectedOffers(onUpdate: Callback<RejectOfferSuccess
     socket.on('game/rejectedOffer', (response: RejectOfferSuccessResponse) => onUpdate(response))
     return () => socket.removeListener('game/rejectedOffer')
 }
- 

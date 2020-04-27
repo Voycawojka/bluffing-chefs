@@ -1,4 +1,5 @@
-import { Offer } from "../../shared/model/game";
+import { Offer } from '../../shared/model/game'
+import { base64Encode } from '../../shared/utils/encoding'
 
 export class Market {
     private offers: Offer[] = []
@@ -64,7 +65,7 @@ export class Market {
     }
 
     private generateId(): string {
-        const id =  btoa('' + Math.random() * 100000)
+        const id =  base64Encode('' + Math.random() * 100000)
 
         if (this.offers.map(offer => offer.id).includes(id)) {
             return this.generateId()
