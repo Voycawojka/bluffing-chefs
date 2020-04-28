@@ -19,7 +19,7 @@ export function performAction<T>(args: PerformActionData): Promise<T> {
             args.socket.removeListener(args.resEvent)
             resolve(data)
         })
-        args.socket.emit(args.reqEvent)
+        args.socket.emit(args.reqEvent, args.data)
     })
 }
 
