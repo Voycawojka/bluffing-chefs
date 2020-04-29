@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { StartingData } from '../../shared/model/game'
 import { PlayersItem, OpponentsItem, UnknownClaimedItem } from '../../shared/model/item'
 import { ItemDeclaration, Transaction } from '../../shared/model/message'
-import { Offer } from '../../shared/model/game'
+import { Offer, AcceptOfferSuccessResponse } from '../../shared/model/game'
 
 export interface Opponent {
     name: string,
     items: OpponentsItem[]
 }
 
-interface GameData {
+export interface GameData {
     items: PlayersItem[]
     neededItems: string[]
     allItems: string[]
@@ -21,6 +21,8 @@ interface GameData {
     setUserName: React.Dispatch<React.SetStateAction<string>>
     setOffers: React.Dispatch<React.SetStateAction<Offer[]>>
     handleTransactionFromMessage: (transaction: Transaction) =>  void
+    deleteOffer: (id: string) => void
+    handleTransactionsFromPersonalOffers: (offerResponse: AcceptOfferSuccessResponse, offersObject: Offer[]) => void
 }
 
 export const GameContext = React.createContext<GameData>({} as GameData)
@@ -100,6 +102,38 @@ const GameProvider = (
             })
         }
     }
+
+    const deleteOffer = (id: string) => {
+        setOffers(offers => {
+            offers.splice(offers.findIndex(offer => offer.id === id), 1)
+            return [...offers]
+        })  
+    }
+    
+    
+    // handle my transactions
+    const handleTransactionsFromPersonalOffers = (offerResponse: AcceptOfferSuccessResponse) => {
+        const offer = offers.find(offer => offer.id === offerResponse.id) as Offer
+        console.log(JSON.stringify(offers))
+        const isMyOffer = offer.from === userName
+        const myItemIndex = isMyOffer ? offer.offeredItemIndex : offer.forItemIndex
+        const opponentItemIndex = isMyOffer ? offer.forItemIndex : offer.offeredItemIndex
+
+        setItems(items => {
+            items[myItemIndex] = offerResponse.gotItem
+            return [...items] 
+        })
+        setOpponents(opponents => {
+            const enemyIndex = opponents.findIndex(
+                opponent => opponent.name === (isMyOffer ? offer.to : offer.from)
+            )
+            opponents[enemyIndex].items[opponentItemIndex] = {
+                type: 'unknown-item'
+            }
+            return [...opponents]
+        })
+        deleteOffer(offerResponse.id)
+    }
     
     return (
         <GameContext.Provider value={{
@@ -113,7 +147,9 @@ const GameProvider = (
             setInitialData,
             handleDeclarationFromMessage,
             setUserName,
-            handleTransactionFromMessage
+            handleTransactionFromMessage,
+            deleteOffer,
+            handleTransactionsFromPersonalOffers
         }}>
             {props.children}
         </GameContext.Provider>

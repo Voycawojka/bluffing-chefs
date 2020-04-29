@@ -15,10 +15,11 @@ const LandingPage = () => {
     function joinRandomQueue(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        api.joinRandomQueue(name, () => {
-            context.setStatus('queued')
-            gameContext.setUserName(name)
-        })
+        api.joinRandomQueue(name)
+            .then(() => {
+                context.setStatus('queued')
+                gameContext.setUserName(name)
+            })
     }
 
     return (

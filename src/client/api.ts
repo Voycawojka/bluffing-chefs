@@ -42,7 +42,7 @@ export function getStartingData(): Promise<StartingData> {
     return performAction({
         socket,
         reqEvent: 'game/startingData/request',
-        resEvent: 'game/startingData',
+        resEvent: 'game/startingData'
     })
 }
 
