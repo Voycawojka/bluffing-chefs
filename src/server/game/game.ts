@@ -1,27 +1,27 @@
-import { Player } from "./players";
+import { Player, InGamePlayer } from "./players";
 import { Server } from "socket.io";
 import { MessageType, UserMessage } from "../../shared/model/message";
 import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferSuccessResponse, CancelOfferResponse, ErrorResponse, RejectOfferResponse, AcceptOfferResponse } from "../../shared/model/game";
-import { PlayersItem, KnownClaimedItem } from "../../shared/model/item";
+import { KnownClaimedItem, UnknownClaimedItem, Indexed, KnownItem } from "../../shared/model/item";
 import { Market } from "./market";
-import { getRandomItems } from "./items";
+import { getRandomItems, Item } from "./items";
 
 export class Game {
     private id: number
     private messages: MessageType[] = []
-    private playerItems: { [username: string]: PlayersItem[] } = {}
-    private neededItems: { [username: string]: string[] } = {}
+    private players: InGamePlayer[]
     private allItems: string[] = []
     private market = new Market()
 
-    constructor(private io: Server, private players: Player[]) {
+    constructor(private io: Server, players: Player[]) {
         this.id = Date.now()
+        this.players = players.map(player => new InGamePlayer(player))
 
-        players.forEach(player => {
+        this.players.forEach(player => {
             player.socket.join(this.roomName)
             
             const items = getRandomItems(5)
-            this.playerItems[player.username] = items.map(item => ({ type: 'known-item', name: item }))
+            player.items.set(items)
             this.allItems.push(...items)
 
             this.setupChat(player)
@@ -30,9 +30,9 @@ export class Game {
             this.setupOffers(player)            
         })
 
-        players.forEach(player => {
+        this.players.forEach(player => {
             // TODO make sure starting and needed items aren't too overlapping
-            this.neededItems[player.username] = getRandomItems(4, this.allItems)
+            player.neededItems = getRandomItems(4, this.allItems)
         })
     }
 
@@ -45,14 +45,14 @@ export class Game {
         this.emitToPlayers('game/receivedMessage', message)
     }
 
-    canBeExchanged(item: PlayersItem): boolean {
-        return typeof item !== 'undefined' && item.type === 'known-claimed-item'
+    canBeExchanged(item: Item | undefined): boolean {
+        return typeof item !== 'undefined' && item.isClaimed
     }
 
-    private startingDataForPlayer(player: Player): StartingData {
+    private startingDataForPlayer(player: InGamePlayer): StartingData {
         return {
-            items: this.playerItems[player.username],
-            neededItems: this.neededItems[player.username],
+            items: player.items.aasKnown(),
+            neededItems: player.neededItems,
             allItems: this.allItems,
             players: this.players.map(p => p.username)
         }
@@ -62,7 +62,7 @@ export class Game {
         return `room-${this.id}`
     }
 
-    private getPlayer(username: string | undefined): Player | undefined {
+    private getPlayer(username: string | undefined): InGamePlayer | undefined {
         return !!username
             ? this.players.find(player => player.username === username)
             : undefined
@@ -77,7 +77,7 @@ export class Game {
         player.socket.emit(event, response)
     }
 
-    private setupChat(player: Player): void {
+    private setupChat(player: InGamePlayer): void {
         player.socket.on('game/sendMessage', (content: string) => {
             console.log(`${this.id} | [${player.username}] ${content}`)
 
@@ -92,30 +92,26 @@ export class Game {
         })
     }
 
-    private setupGameData(player: Player): void {
+    private setupGameData(player: InGamePlayer): void {
         player.socket.on('game/startingData/request', () => {
             player.socket.emit('game/startingData', this.startingDataForPlayer(player))
         })
     }
 
-    private setupClaiming(player: Player): void {
+    private setupClaiming(player: InGamePlayer): void {
         player.socket.on('game/claimItem', (req: ClaimItemRequest) => {
             if (!this.allItems.includes(req.asItem)) {
-                this.respondWithError(player, 'ga,e/claimedItem', `Cannot claim '${req.asItem}' because it's not in this game`)
+                this.respondWithError(player, 'game/claimedItem', `Cannot claim '${req.asItem}' because it's not in this game`)
                 return
             }
 
-            const item: KnownClaimedItem = {
-                type: 'known-claimed-item',
-                name: this.playerItems[player.username][req.itemIndex].name,
-                claimedAs: req.asItem
-            }
+            const item = player.items.get(req.itemIndex)
 
-            this.playerItems[player.username][req.itemIndex] = item
+            item.claimAs(req.asItem)
 
             const response: ClaimItemSuccessResponse = {
                 success: true,
-                itemData: item
+                itemData: item.asKnown() as KnownClaimedItem
             }
 
             player.socket.emit('game/claimedItem', response)
@@ -123,31 +119,27 @@ export class Game {
                 type: 'item-declaration',
                 user: player.username,
                 time: Date.now(),
-                item: {
-                    type: 'unknown-claimed-item',
-                    claimedAs: item.claimedAs,
-                    index: req.itemIndex
-                } 
+                item: item.asUnknownIndexed(req.itemIndex) as UnknownClaimedItem & Indexed
             })
         })
     }
 
-    private setupOffers(player: Player): void {
+    private setupOffers(player: InGamePlayer): void {
         player.socket.on('game/makeOffer', (req: OfferRequest) => {
-            const playerItem = this.playerItems[player.username][req.playerItemIndex]
-            const opponentItem = this.playerItems[req.toPlayer][req.opponentItemIndex]
-
-            if (!this.canBeExchanged(playerItem) || !this.canBeExchanged(opponentItem)) {
-                this.respondWithError(player, 'game/madeOffer', 'Provided items cannot be exchanged')
-                return
-            }
-
             const opponent = this.getPlayer(req.toPlayer)
 
             if (!opponent) {
                 this.respondWithError(player, 'game/madeOffer', `Player '${req.toPlayer}' isn't participating in this game`)
                 return
             }
+
+            const playerItem = player.items.get(req.playerItemIndex)
+            const opponentItem = opponent.items.get(req.opponentItemIndex)
+
+            if (!this.canBeExchanged(playerItem) || !this.canBeExchanged(opponentItem)) {
+                this.respondWithError(player, 'game/madeOffer', 'Provided items cannot be exchanged')
+                return
+            } 
 
             const offer = this.market.addOffer(player.username, req.toPlayer, req.playerItemIndex, req.opponentItemIndex)
 
@@ -211,35 +203,34 @@ export class Game {
                 return
             }
 
-            const playerItem = this.playerItems[player.username][offer.forItemIndex]
-            const opponentItem = this.playerItems[opponent.username][offer.offeredItemIndex]
+            const playerItem = player.items.get(offer.forItemIndex)
+            const opponentItem = opponent.items.get(offer.offeredItemIndex)
 
             const playerResponse: AcceptOfferResponse = {
                 success: true,
                 id,
-                gotItem: { type: 'known-item', name: opponentItem.name }
+                gotItem: opponentItem.asKnown() as KnownItem
             }
 
             const opponentResponse: AcceptOfferResponse = {
                 success: true,
                 id,
-                gotItem: { type: 'known-item', name: playerItem.name }
+                gotItem: playerItem.asKnown() as KnownItem
             }
 
             const chatMessage: MessageType = {
                 type: 'transaction',
                 user1: {
                     name: opponent.username,
-                    item: { type: 'unknown-claimed-item', claimedAs: opponentItem.name, index: offer.offeredItemIndex }
+                    item: opponentItem.asUnknownIndexed(offer.offeredItemIndex) as UnknownClaimedItem & Indexed
                 },
                 user2: {
                     name: player.username,
-                    item: { type: 'unknown-claimed-item', claimedAs: playerItem.name, index: offer.forItemIndex }
+                    item: playerItem.asUnknownIndexed(offer.forItemIndex) as UnknownClaimedItem & Indexed
                 }
             }
 
-            this.playerItems[player.username][offer.forItemIndex] = opponentItem
-            this.playerItems[opponent.username][offer.offeredItemIndex] = playerItem
+            player.items.exchange(offer.forItemIndex, opponent.items, offer.offeredItemIndex)
 
             player.socket.emit('game/acceptedOwnOffer', playerResponse)
             opponent.socket.emit('game/acceptedOffer', opponentResponse)

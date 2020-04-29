@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io'
+import { Equipment } from './equipment'
 
 export interface Player {
     socket: Socket,
@@ -10,3 +11,15 @@ export interface PlayerStore {
 }
 
 export const players: PlayerStore = {}
+
+export class InGamePlayer {
+    socket: Socket
+    username: string
+    items: Equipment = new Equipment()
+    neededItems: string[] = []
+
+    constructor(player: Player) {
+        this.socket = player.socket
+        this.username = player.username
+    }
+}
