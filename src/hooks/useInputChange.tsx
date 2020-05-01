@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 type InputType = [string, (event: React.ChangeEvent<HTMLInputElement>) => void, () => void]
 
-export const useInputChange: (characterLimit: number) => InputType = (characterLimit: number) => {
-    const [input, setInput] = useState('')
+export const useInputChange: (characterLimit: number, initialValue: string) => InputType = (characterLimit: number, initialValue: string) => {
+    const [input, setInput] = useState(initialValue)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()

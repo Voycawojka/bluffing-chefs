@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useRef } from 'react'
 import * as api from '../../client/api'
 import { Offer } from '../../shared/model/game'
 import { GameContext } from '../gameProvider/GameProvider'
@@ -12,7 +12,7 @@ const OfferTile = (
 
     const gameContext = useContext(GameContext)
     const offersRef = useRef(gameContext.offers)
-    const isItMyOffer = gameContext.userName === props.offer.from
+    const isMyOffer = gameContext.userName === props.offer.from
 
     function acceptOffer() {
         api.acceptOffer(props.offer.id)
@@ -22,7 +22,7 @@ const OfferTile = (
     function denyOffer() {
         const id = props.offer.id
 
-        if (isItMyOffer) {
+        if (isMyOffer) {
             api.cancelOffer(id)
                 .then(() => gameContext.deleteOffer(id))
         } else {
@@ -35,8 +35,8 @@ const OfferTile = (
     return (
         <div>
             {props.offer.offeredItemIndex} from {props.offer.from} for {props.offer.forItemIndex} to {props.offer.to}
-            <button onClick={acceptOffer} disabled={isItMyOffer}>Accept</button>
-            <button onClick={denyOffer}>{ isItMyOffer ? 'Cancel' : 'Reject' }</button>
+            <button onClick={acceptOffer} disabled={isMyOffer}>Accept</button>
+            <button onClick={denyOffer}>{ isMyOffer ? 'Cancel' : 'Reject' }</button>
         </div>
     )
 }

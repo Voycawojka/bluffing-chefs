@@ -20,12 +20,17 @@ const UnknownClaimedItem = (
         .map(item => 
             <p
                 onClick={() => {
-                    const opponent = gameContext.opponents.find(opponent => opponent.items.find(item => item === props.item)) as Opponent
-                    const playerItemIndex = gameContext.items.indexOf(item)
-                    const opponentItemIndex = opponent.items.indexOf(props.item)
+                    const opponent = gameContext.opponents.find(opponent => opponent.items.find(item => item === props.item))
 
-                    api.makeOffer(opponent.name, playerItemIndex, opponentItemIndex)
-                        .then(succesOffer => gameContext.setOffers(offers => [...offers, succesOffer.offerData]))
+                    if (opponent) {
+                        const playerItemIndex = gameContext.items.indexOf(item)
+                        const opponentItemIndex = opponent.items.indexOf(props.item)
+    
+                        api.makeOffer(opponent.name, playerItemIndex, opponentItemIndex)
+                            .then(succesOffer => gameContext.setOffers(offers => [...offers, succesOffer.offerData]))
+                    } else {
+                        throw 'opponent is unknown'
+                    }
                 }}
             >{item.name}</p>
         )

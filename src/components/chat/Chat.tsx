@@ -7,7 +7,7 @@ import Message from './Message'
 import * as api from '../../client/api'
 
 const Chat = () => {
-    const [message, setMessage, resetMessage] = useInputChange(100)
+    const [message, setMessage, resetMessage] = useInputChange(100, '')
     const [conversation, setConversation] = useState<MessageType[]>([])
 
     useEffect(() => {
@@ -15,9 +15,7 @@ const Chat = () => {
             setConversation(conversation => [...conversation, message])
         )
 
-        return () => {
-            unsubMessage()
-        }
+        return () => unsubMessage()
     }, [])
     
     function submitMessage(event: React.FormEvent<HTMLFormElement>) {

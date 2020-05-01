@@ -46,40 +46,62 @@ const GameProvider = (
         setOpponents(
             data.players
                 .filter(player => userName !== player)
-                .map(player => { 
-                    return ({
-                        name: player,
-                        items: Array(5).fill({ type: 'unknown-item' })
-                    })
-                })
+                .map(player => ({
+                    name: player,
+                    items: Array(5).fill({ type: 'unknown-item' })
+                }))
         )
+    }
+
+    const handleOpponentDeclaration = (declaration: ItemDeclaration) => {
+        const index = declaration.item.index
+
+        const opponentIndex = opponents.findIndex(opponent => opponent.name === declaration.user) 
+            
+        setOpponents(data => {
+            const clonedData = [...data]
+
+            clonedData[opponentIndex].items[index] = ({
+                type: 'unknown-claimed-item',
+                claimedAs: declaration.item.claimedAs
+            })
+            return clonedData
+        })
+    }
+
+    const handleOwnDeclaration = (declaration: ItemDeclaration) => {
+        const index = declaration.item.index
+
+        setItems(data => {
+            const clonedData = [...data]
+
+            clonedData[index] = ({
+                type: 'known-claimed-item',
+                claimedAs: declaration.item.claimedAs,
+                name: data[index].name
+            })
+            return clonedData
+        }) 
     }
 
     //handles both player and opponent declarations
     const handleDeclarationFromMessage = (declaration: ItemDeclaration) => { 
-        const index = declaration.item.index
+        const isOpponent = declaration.user !== userName
 
-        if (declaration.user !== userName) {
-            const opponent = opponents.find(opponent => opponent.name === declaration.user)
-            const opponentIndex = opponents.indexOf(opponent as Opponent)
-
-            setOpponents(data => {
-                data[opponentIndex].items[index] = ({
-                    type: 'unknown-claimed-item',
-                    claimedAs: declaration.item.claimedAs
-                })
-                return [...data]
-            })
+        if (isOpponent) {
+            handleOpponentDeclaration(declaration)
         } else {
-            setItems(data => {
-                data[index] = ({
-                    type: 'known-claimed-item',
-                    claimedAs: declaration.item.claimedAs,
-                    name: data[index].name
-                })
-                return [...data]
-            }) 
+            handleOwnDeclaration(declaration)
         }
+    }
+
+    const deleteOffer = (id: string) => {
+        setOffers(offers => {
+            const clonedOffer = [...offers]
+
+            clonedOffer.splice(clonedOffer.findIndex(offer => offer.id === id), 1)
+            return clonedOffer
+        })  
     }
 
     //handles opponent transactions from message
@@ -95,44 +117,47 @@ const GameProvider = (
                 const opponent = opponents.find(opponent => opponent.name === trader.name)
                 const opponentIndex = opponents.indexOf(opponent as Opponent)
 
-                setOpponents(data => {
-                    data[opponentIndex].items[trader.item.index] = { type: 'unknown-item' }
-                    return [...data]
+                setOpponents(opponents => {
+                    const clonedOpponents = [...opponents]
+
+                    clonedOpponents[opponentIndex].items[trader.item.index] = { type: 'unknown-item' }
+                    return clonedOpponents
                 })
             })
         }
     }
-
-    const deleteOffer = (id: string) => {
-        setOffers(offers => {
-            offers.splice(offers.findIndex(offer => offer.id === id), 1)
-            return [...offers]
-        })  
-    }
-    
     
     // handle my transactions
     const handleTransactionsFromPersonalOffers = (offerResponse: AcceptOfferSuccessResponse) => {
-        const offer = offers.find(offer => offer.id === offerResponse.id) as Offer
-        console.log(JSON.stringify(offers))
-        const isMyOffer = offer.from === userName
-        const myItemIndex = isMyOffer ? offer.offeredItemIndex : offer.forItemIndex
-        const opponentItemIndex = isMyOffer ? offer.forItemIndex : offer.offeredItemIndex
+        const offer = offers.find(offer => offer.id === offerResponse.id) 
+        
+        if (offer) {
+            const isMyOffer = offer.from === userName
+            const myItemIndex = isMyOffer ? offer.offeredItemIndex : offer.forItemIndex
+            const opponentItemIndex = isMyOffer ? offer.forItemIndex : offer.offeredItemIndex
+    
+            setItems(items => {
+                const clonedItems = [...items]
 
-        setItems(items => {
-            items[myItemIndex] = offerResponse.gotItem
-            return [...items] 
-        })
-        setOpponents(opponents => {
-            const enemyIndex = opponents.findIndex(
-                opponent => opponent.name === (isMyOffer ? offer.to : offer.from)
-            )
-            opponents[enemyIndex].items[opponentItemIndex] = {
-                type: 'unknown-item'
-            }
-            return [...opponents]
-        })
-        deleteOffer(offerResponse.id)
+                clonedItems[myItemIndex] = offerResponse.gotItem
+                return clonedItems
+            })
+            setOpponents(opponents => {
+                const clonedOpponents = [...opponents]
+                const enemyIndex = clonedOpponents.findIndex(
+                    opponent => opponent.name === (isMyOffer ? offer.to : offer.from)
+                )
+
+                clonedOpponents[enemyIndex].items[opponentItemIndex] = {
+                    type: 'unknown-item'
+                }
+                return clonedOpponents
+            })
+            deleteOffer(offerResponse.id)
+        } else {
+            throw 'can\'t find offer'
+        }
+
     }
     
     return (
