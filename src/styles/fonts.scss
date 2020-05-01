@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Fahkwang|Rammetto+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Faustina&display=swap');
+
+@mixin font-rammeto {
+    font-family: 'Rammetto One', cursive;
+}
+
+@mixin font-fahkwang {
+    font-family: 'Fahkwang', sans-serif;
+}
+
+@mixin font-faustina {
+    font-family: 'Faustina', serif;
+}
+

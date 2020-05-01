@@ -5,8 +5,6 @@ const DisplayItem = (
         item: string
     }
 ) => {
-
-
     return (
         //to be image and text display
         <p>

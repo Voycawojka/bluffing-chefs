@@ -1,6 +1,5 @@
 import * as React from 'react'
-import LandingPage from './LandingPage'
-import Lobby from './Lobby'
+import LandingPage from './landingPage/LandingPage'
 import AppProvider, { AppContext } from './appProvider/AppProvider'
 import Game from './game/Game'
 import GameProvider, { GameContext } from './gameProvider/GameProvider'
@@ -15,8 +14,6 @@ const App = () => {
                             switch(context.status) {
                                 case 'start': 
                                     return <LandingPage />
-                                case 'queued':
-                                    return <Lobby /> 
                                 case 'in-game':
                                     return <Game />  
                             }

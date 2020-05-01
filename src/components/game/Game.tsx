@@ -13,23 +13,8 @@ const Game = () => {
     
     useEffect(() => {
         api.getStartingData()
-            .then(data => {
-                console.log(data)
-                gameContext.setInitialData(data)
-                
-            })
+            .then(data => gameContext.setInitialData(data))
     }, [])
-
-    function getKnownItems(items: string[]): KnownItem[] {
-        return items.map(item => { 
-            return (
-                {  
-                    type: 'known-item',
-                    name: item
-                }
-            )
-        })
-    }
 
     if (gameContext.allItems !== []) {
 
