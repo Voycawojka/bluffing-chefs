@@ -70,14 +70,3 @@ export interface AcceptOfferSuccessResponse {
 }
 
 export type AcceptOfferResponse = AcceptOfferSuccessResponse | ErrorResponse
-
-// Victory
-
-export interface Victor {
-    username: string,
-    neededItems: string[]
-}
-
-export interface Victory {
-    victors: Victor[]
-}

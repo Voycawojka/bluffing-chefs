@@ -1,7 +1,7 @@
 import { Player, InGamePlayer } from "./players";
 import { Server } from "socket.io";
 import { MessageType, UserMessage } from "../../shared/model/message";
-import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferSuccessResponse, CancelOfferResponse, ErrorResponse, RejectOfferResponse, AcceptOfferResponse, Victory } from "../../shared/model/game";
+import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferSuccessResponse, CancelOfferResponse, ErrorResponse, RejectOfferResponse, AcceptOfferResponse } from "../../shared/model/game";
 import { KnownClaimedItem, UnknownClaimedItem, Indexed, KnownItem } from "../../shared/model/item";
 import { Market } from "./market";
 import { getRandomItems, Item } from "./items";
@@ -51,7 +51,7 @@ export class Game {
 
     private startingDataForPlayer(player: InGamePlayer): StartingData {
         return {
-            items: player.items.asKnown(),
+            items: player.items.aasKnown(),
             neededItems: player.neededItems,
             allItems: this.allItems,
             players: this.players.map(p => p.username)
@@ -75,26 +75,6 @@ export class Game {
         }
 
         player.socket.emit(event, response)
-    }
-
-    private handlePossibleVictory(): void {
-        const winners = [];
-
-        for (const player of this.players) {
-            let won = player.neededItems.every(neededItem => player.items.contains(neededItem))
-
-            if (won) {
-                winners.push(player);
-            }
-        }
-
-        if (winners.length > 0) {
-            const victory: Victory = {
-                victors: winners.map(winner => ({ username: winner.username, neededItems: winner.neededItems }))
-            }
-            this.emitToPlayers('game/end', victory)
-            games.splice(games.indexOf(this), 1);
-        }
     }
 
     private setupChat(player: InGamePlayer): void {
@@ -255,8 +235,6 @@ export class Game {
             player.socket.emit('game/acceptedOwnOffer', playerResponse)
             opponent.socket.emit('game/acceptedOffer', opponentResponse)
             this.emitChatMessage(chatMessage)
-
-            this.handlePossibleVictory();
         })
     }
 }
