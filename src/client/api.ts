@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import { MessageType, UserMessage } from '../shared/model/message'
-import { StartingData, ClaimItemRequest, ClaimItemResponse, ClaimItemSuccessResponse, OfferResponse, OfferRequest, Offer, CancelOfferResponse, CancelOfferSuccessResponse, OfferSuccessResponse, RejectOfferSuccessResponse, RejectOfferResponse, AcceptOfferSuccessResponse, AcceptOfferResponse } from '../shared/model/game'
+import { StartingData, ClaimItemRequest, ClaimItemResponse, ClaimItemSuccessResponse, OfferResponse, OfferRequest, Offer, CancelOfferResponse, CancelOfferSuccessResponse, OfferSuccessResponse, RejectOfferSuccessResponse, RejectOfferResponse, AcceptOfferSuccessResponse, AcceptOfferResponse, Victory } from '../shared/model/game'
 import { performActionWithResponse, performAction } from './performAction'
 import { Callback, UnsubscribeFn, subscribe } from './subscribe'
 
@@ -111,4 +111,13 @@ export function acceptOffer(id: string): Promise<AcceptOfferSuccessResponse> {
 
 export function subscribeForAcceptedOffers(onUpdate: Callback<AcceptOfferSuccessResponse>): UnsubscribeFn {
     return subscribe(socket, 'game/acceptedOffer', onUpdate)
+}
+
+// Game - victory
+
+export function onGameEnd(): Promise<Victory> {
+    return new Promise<Victory>(resolve => socket.on('game/end', (data: Victory) => {
+        socket.removeListener('game/end');
+        resolve(data)
+    }));
 }
