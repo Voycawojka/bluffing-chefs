@@ -5,6 +5,10 @@ import { stringInRange } from '../../shared/utils/constraintUtils'
 import { useInputChange } from '../../hooks/useInputChange'
 import { GameContext } from './../gameProvider/GameProvider'
 
+function generateNickname(): string {
+    return  `Chef-${Math.floor(Math.random() * 10000)}`
+}
+
 const GameEnter = (
     props: {
         setInQueue: React.Dispatch<React.SetStateAction<boolean>>
@@ -12,8 +16,7 @@ const GameEnter = (
 ) => {
     const gameContext = useContext(GameContext)
 
-    const initialValue = `user-${Math.floor(Math.random() * 10000)}`
-    const [ name, setName ] = useInputChange(15, initialValue) 
+    const [ name, setName ] = useInputChange(15, generateNickname()) 
 
     function joinRandomQueue(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()

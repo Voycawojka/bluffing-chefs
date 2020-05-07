@@ -1,3 +1,4 @@
+import availableItems from "../data/items.json"
 import { Player, InGamePlayer } from "./players";
 import { Server } from "socket.io";
 import { MessageType, UserMessage } from "../../shared/model/message";
@@ -20,7 +21,7 @@ export class Game {
         this.players.forEach(player => {
             player.socket.join(this.roomName)
             
-            const items = getRandomItems(5)
+            const items = getRandomItems(5, availableItems, false)
             player.items.set(items)
             this.allItems.push(...items)
 
@@ -32,7 +33,7 @@ export class Game {
 
         this.players.forEach(player => {
             // TODO make sure starting and needed items aren't too overlapping
-            player.neededItems = getRandomItems(4, this.allItems)
+            player.neededItems = getRandomItems(4, this.allItems, true)
         })
     }
 
