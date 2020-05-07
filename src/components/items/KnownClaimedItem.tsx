@@ -9,7 +9,15 @@ const KnownClaimedItem = (
 
     return (
         <div className="items__item">
-            {props.item.name} claimed as {props.item.claimedAs} 
+            <p className='items__item-label'>{props.item.name}</p>
+            
+            <img className='items__item-image' src='' />
+            
+            <div className='items__item-claimed-container'>
+                {/* TODO image */}
+                <img className='items__item-claimed-image' src=''/>
+                <p className='items__item-claimed-name' >{props.item.claimedAs}</p>
+            </div>
         </div>
     )
 }

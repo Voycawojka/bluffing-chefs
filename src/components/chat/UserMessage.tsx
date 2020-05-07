@@ -8,7 +8,12 @@ const UserMessage = (
     } 
 ) => {
     return (
-        <div>{props.message.user}: <FormattedMessage msg={props.message.content}/> </div>
+        <>
+            <span className='message__message-user'>
+                {props.message.user}: 
+            </span>
+            <FormattedMessage msg={props.message.content}/> 
+        </>
     )
 }
 

@@ -16,7 +16,9 @@ const ItemDeclaration = (
     }, [])
 
     return (
-        <div>{props.message.user} claims to have <DisplayedImage name={props.message.item.claimedAs}/></div>
+        <div className='message__special'>
+            {props.message.user} claims to have <DisplayedImage name={props.message.item.claimedAs}/>
+        </div>
     )
 }
 

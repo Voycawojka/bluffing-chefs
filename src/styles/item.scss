@@ -1,14 +1,132 @@
 .items {
+    margin: 1px;
+
     &__item {
-        width: 70px;
-        height: 60px;
-        background-color: pink;
+        position: relative;
+        width: 60px;
+        border: 1px solid $color-black;
         text-align: center;
+
+        &--display {
+            display: inline-block;
+            margin: 0 5px;
+        }
+    }
+
+    &__item-label {
+        @include font-faustina;
+        text-align: center;
+        font-size: 10px;
+        text-transform: capitalize;
+        background-color: $secondary-color;
+        height: 13px;
+        margin: 0;
+        padding: 1px 2px;
+        border-bottom: 1px solid black;
+    }
+
+    &__item-image {
+        display: block;
+        background-color: $color-white;
+        box-sizing: border-box;
+        width: 100%;
+        height: 54px;
+    }
+
+    &__item-question-mark {
+        position: absolute;
+        right: 0;
+        top: 49px;
+        display: block;
+        height: 20px;
+        width: 20px;
+        border: 1px solid $color-black;
+    }
+
+    &__item-claim {
+        @include font-rammeto;
+        font-size: 9px;
+        box-sizing: border-box;
+        border: none;
+        text-transform: capitalize;
+        background-color: $primary-color;
+        width: 100%;
+        height: 22px;
+        padding: 2px;
+        border-top: 1px solid black;
+    }
+
+    //repeated to be button
+    &__item-exchange {
+        @include font-rammeto;
+        font-size: 9px;
+        box-sizing: border-box;
+        border: none;
+        text-transform: capitalize;
+        background-color: $primary-color;
+        width: 100%;
+        height: 22px;
+        padding: 2px;
+        border-top: 1px solid black;
+
+        &:disabled {
+            color: black;
+            background-color: $disabled-color;
+        }
+    }
+
+    &__item-claimed-container {
+        position: relative;
+        border-top: 1px solid black;
+        width: 100%;
+        height: 22px;
+    }
+
+    &__item-claimed-image {
+        position: absolute;
+        box-sizing: border-box;
+        left: 0;
+        top: 0;
+        width: 22px;
+        height: 22px;
+        border-right: 1px solid black;
+        background-color: $color-white;
+    }
+
+    &__item-claimed-name {
+        @include font-faustina;
+        background-color: $secondary-color;
+        text-transform: capitalize;
+        white-space: nowrap;
+        box-sizing: border-box;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: calc(100% - 22px);
+        height: 22px;
+        padding: 4px 2px;
+        font-size: 10px;
     }
 
     &__list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 70px);
+        margin-top: 30px;
+        display: flex;
         justify-content: space-evenly;
+
+        &--scrollable {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: block;
+            overflow: auto;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        &--enemy-list {
+            margin-top: 14px;
+        }
     }
 }

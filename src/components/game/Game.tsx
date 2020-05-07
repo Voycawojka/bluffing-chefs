@@ -3,12 +3,12 @@ import { useEffect, useState, useContext } from 'react'
 import * as api from '../../client/api'
 import Chat from '../chat/Chat'
 import Items from '../items/Items'
-import { KnownItem } from '../../shared/model/item'
 import { GameContext } from '../gameProvider/GameProvider'
 import DisplayItem from '../items/DisplayItem'
 import Offers from '../offers/Offers'
 
 const Game = () => {
+    const [currentDisplay, setCurrentDisplay] = useState(true)
     const gameContext = useContext(GameContext)
     
     useEffect(() => {
@@ -18,37 +18,58 @@ const Game = () => {
 
     if (gameContext.allItems !== []) {
 
-        const renderEnemies = gameContext.opponents.map(opponent => 
-            <div className="items__list">
-                {opponent.name}
-                <Items items={opponent.items}/>
-            </div>
+        const renderEnemies = gameContext.opponents.map(opponent =>
+            <div className='game__enemy'>
+                <p className='game__enemy-name'>{opponent.name}</p>
+                <div className="items__list items__list--enemy-list">
+                    <Items items={opponent.items}/>
+                </div>
+            </div> 
         )
+
+        const renderItems = currentDisplay 
+            ? <div className="items__list items__list--scrollable">  
+                {gameContext.neededItems.map(item => <DisplayItem item={item} />)}
+            </div>
+            : <div className="items__list items__list--scrollable">
+                {gameContext.allItems.map(item => <DisplayItem item={item} />)}
+            </div>
 
         return (
             <div className='game'>
-               ingame
                 <Chat />
+                <div className='game__content'>
+                    <div className="items__list">    
+                        <Items items={gameContext.items} />
+                    </div>
 
-               All Items:
-                <div className="items__list">  
-                    {gameContext.allItems.map(item => <DisplayItem item={item} />)}
+                    <div className='game__item-display'>
+                        <button 
+                            className={`game__button game__button--left ${currentDisplay ? 'game__button--left-active' : 'game__button--left-inactive'}`} 
+                            onClick={() => setCurrentDisplay(true)}
+                        >
+                        collect
+                        </button>
+
+                        <button 
+                            className={`game__button ${currentDisplay ? 'game__button--right-inactive' : 'game__button--right-active'}`}
+                            onClick={() => setCurrentDisplay(false)}
+                        >
+                        pool
+                        </button>
+                        {renderItems}
+                    </div>
+
+                    <div className='game__container'>
+                        <Offers />
+                        <div className='game__enemies'>
+                            {renderEnemies}
+                            {renderEnemies}
+                            {renderEnemies}
+                            {renderEnemies}
+                        </div>
+                    </div>
                 </div>
-
-                My Items:
-                <div className="items__list">    
-                    <Items items={gameContext.items} />
-                </div>
-
-               Needed Items:
-                <div className="items__list">
-                    {gameContext.neededItems.map(item => <DisplayItem item={item} />)}
-                </div>
-
-                Enemies:
-                {renderEnemies}
-
-                <Offers />
             </div>
         )
     } else {

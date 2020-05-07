@@ -3,6 +3,8 @@ import { useContext, useRef } from 'react'
 import * as api from '../../client/api'
 import { Offer } from '../../shared/model/game'
 import { GameContext } from '../gameProvider/GameProvider'
+import { KnownClaimedItem } from '../../shared/model/item'
+import { UnknownClaimedItem }from '../../shared/model/item'
 
 const OfferTile = (
     props: {
@@ -32,11 +34,45 @@ const OfferTile = (
         
     }
 
+    const renderOwner = isMyOffer
+        ? `to ${props.offer.to}`
+        : `from ${props.offer.from}`
+
+    const getClaimedItemNames = (() => {
+        let offeredItem: KnownClaimedItem | UnknownClaimedItem
+        let forItem: KnownClaimedItem | UnknownClaimedItem
+
+        if (isMyOffer) {
+            offeredItem = gameContext.items[props.offer.offeredItemIndex] as KnownClaimedItem
+            forItem = gameContext.opponents.find(opponent => opponent.name)?.items[props.offer.forItemIndex] as UnknownClaimedItem
+        } else {
+            offeredItem = gameContext.opponents.find(opponent => opponent.name)?.items[props.offer.offeredItemIndex] as UnknownClaimedItem
+            forItem = gameContext.items[props.offer.forItemIndex] as KnownClaimedItem
+        }
+
+        return [offeredItem.claimedAs, forItem.claimedAs]
+    })()
+
+    const renderButtons = isMyOffer 
+        ? <button className='offers__offer-tile-button' onClick={denyOffer}>cancel</button>
+        : <>
+            <button className='offers__offer-tile-button offers__offer-tile-button--left' onClick={acceptOffer}>deal</button>
+            <button className='offers__offer-tile-button offers__offer-tile-button--right' onClick={denyOffer}>no</button>
+        </>
+
     return (
-        <div>
-            {props.offer.offeredItemIndex} from {props.offer.from} for {props.offer.forItemIndex} to {props.offer.to}
-            <button onClick={acceptOffer} disabled={isMyOffer}>Accept</button>
-            <button onClick={denyOffer}>{ isMyOffer ? 'Cancel' : 'Reject' }</button>
+        <div className='offers__offer-tile'>
+            <p className='offers__offer-tile-owner'>{renderOwner}</p>
+            <div className='offers__offer-content'>
+                <p className='items__item-label'>{getClaimedItemNames[0]} for {getClaimedItemNames[1]}</p>
+                <div className='offers__offer-tile-image-container'>
+                    {/* image from */}
+                    <img className='offers__offer-tile-image' src=''/>
+                    {/* image to */}
+                    <img className='offers__offer-tile-image' src=''/>
+                </div>
+                {renderButtons}
+            </div>
         </div>
     )
 }

@@ -9,10 +9,10 @@ import { UnsubscribeFn } from '../../client/subscribe'
 class Offers extends Component<{}, {}> {
     static contextType: React.Context<GameData> = GameContext
 
-    private subscribtionHandles: UnsubscribeFn[]
+    private subscriptionHandles: UnsubscribeFn[]
 
     componentDidMount() {
-        this.subscribtionHandles = [
+        this.subscriptionHandles = [
             api.subscribeForOffers(offer => this.context.setOffers(data => [...data, offer])),
             api.subscribeForRejectedOffers(rejectedOffer => this.context.deleteOffer(rejectedOffer.id)),
             api.subscribeForCancelledOffers(canceledOffer => this.context.deleteOffer(canceledOffer.id)),
@@ -21,7 +21,7 @@ class Offers extends Component<{}, {}> {
     }
 
     componentWillUnmount() {
-        this.subscribtionHandles.forEach(subscribtion => subscribtion())
+        this.subscriptionHandles.forEach(subscribtion => subscribtion())
     }
     
 
@@ -29,8 +29,7 @@ class Offers extends Component<{}, {}> {
         const renderOffers = this.context.offers.map(offer => <OfferTile offer={offer} key={offer.id} />)
     
         return (
-            <div>
-            CurrentOffers:
+            <div className='offers'>
                 {renderOffers}
             </div>
         )

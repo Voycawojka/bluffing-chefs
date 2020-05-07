@@ -20,7 +20,7 @@ const GameEnter = (
 
         api.joinRandomQueue(name)
             .then(() => {
-                props.setInQueue(status => !status)
+                props.setInQueue(true)
                 gameContext.setUserName(name)
             })
     }

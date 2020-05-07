@@ -6,10 +6,13 @@ const DisplayItem = (
     }
 ) => {
     return (
-        //to be image and text display
-        <p>
-            { props.item }
-        </p>
+        <div className='items__item items__item--display'>
+            <p className='items__item-label'>{props.item}</p>
+            
+            {/* TODO image */}
+            <img className='items__item-image' src='' />
+            
+        </div>
     )
 }
 

@@ -1,0 +1,75 @@
+.game {
+    position: relative;
+
+    @include tablet {
+       display: grid;
+       grid-template-columns: 40% 55%;
+       grid-template-rows: 100vh;
+       column-gap: 5%;
+    }
+
+    @include desktop {
+        grid-template-columns: 43% 55%;
+        column-gap: 2%;
+    }
+
+    &__content {
+        @include tablet {
+            overflow-y: auto;
+        }
+    }
+
+    &__container {
+        @include desktop {
+            display: grid;
+            grid-template-columns: 42% 58%;
+        }
+    }
+
+    &__item-display {
+        margin-top: 20px;
+        background-color: $color-grey;
+        width: 100%;
+
+        border-top: 2px solid $color-black;
+        border-bottom: 2px solid $color-black;
+    }
+
+    &__button {
+        @include font-rammeto;
+        box-sizing: border-box;
+        font-size: 16px;
+        width: 50%;
+        border: none;
+        background-color: inherit;
+        border-bottom: 2px solid $color-black;
+
+        &--left-inactive {
+            border-right: 2px solid $color-black;
+        }
+
+        &--left-active {
+            border-bottom: none;
+        }
+
+        &--right-inactive {
+            border-left: 2px solid $color-black;
+        }
+
+        &--right-active {
+            border-bottom: none;
+        }
+    }
+
+    &__enemy {
+        margin-bottom: 12px;
+    }
+
+    &__enemy-name {
+        @include font-rammeto;
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 0;
+        margin-top: 20px;
+    }
+}

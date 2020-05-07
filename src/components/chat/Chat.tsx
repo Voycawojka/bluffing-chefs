@@ -9,13 +9,34 @@ import * as api from '../../client/api'
 const Chat = () => {
     const [message, setMessage, resetMessage] = useInputChange(100, '')
     const [conversation, setConversation] = useState<MessageType[]>([])
+    const [keyVisibility, setKeyVisibility] = useState(true)
+
+    function scrollToBottom() {
+        const conversation = document.getElementById('conversation')
+
+        if (conversation) {
+            conversation.scrollTop = conversation.scrollHeight
+        }
+    }
+
+    function toggleKeyVisibility(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        event.preventDefault()
+        setKeyVisibility(visibility => !visibility)
+    }
 
     useEffect(() => {
-        const unsubMessage = api.subscribeForChatMessage(message => 
+        const unsubMessage = api.subscribeForChatMessage(message => {
             setConversation(conversation => [...conversation, message])
-        )
+            scrollToBottom()
+        })
 
         return () => unsubMessage()
+    }, [])
+
+    useEffect(() => {
+        if (window.innerWidth > 651) {
+            setKeyVisibility(false)
+        }
     }, [])
     
     function submitMessage(event: React.FormEvent<HTMLFormElement>) {
@@ -31,21 +52,37 @@ const Chat = () => {
 
     return (
         <div className='chat'>
-            <div className='chat__conversation'>
+            <div className='chat__conversation' id='conversation'>
                 {renderConversation}
             </div>
-            <form onSubmit={submitMessage}>
+            <form className='chat__form' onSubmit={submitMessage}>
                 <input
+                    className='chat__input'
                     type='text'
                     value={message}
                     onChange={setMessage}
                 />
-                <input
+                <button 
+                    onClick={event => toggleKeyVisibility(event)} 
+                    className={`chat__key-toggle`}
+                >
+                    <i className="fas fa-info"></i>
+                </button>
+                <button
+                    className='chat__submit'
                     type='submit'
-                    value='submit'
                     disabled={!stringInRange(message, 1, 100)}
-                />
-            </form>     
+                >
+                    <i className="fas fa-paper-plane"></i>
+                </button>
+
+            </form>
+            <div className={`chat__key ${keyVisibility ? 'chat__key--visible' : ''}`}>
+                <span>*bold*</span>
+                <span>_italic_</span>
+                <span>~striked~</span>
+                <span>[ingredient]</span>
+            </div>     
         </div>
     )
 }

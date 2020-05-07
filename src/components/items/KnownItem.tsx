@@ -25,12 +25,22 @@ const KnownItem = (
     )
 
     return (
-        <div className="items__item">
-            {props.item.name}
+        <div className='items__item'>
+            <p className='items__item-label'>{props.item.name}</p>
+            
+            {/* TODO image */}
+            <img className='items__item-image' src='' />
+            
+            
             {
                 claimPossibilitiesVisible && <div> {renderClaimPossiblities} </div>
             }
-            <button onClick={() => setClaimPossibilitiesVisible(state => !state)}>claim</button>
+            <button  
+                onClick={() => setClaimPossibilitiesVisible(state => !state)}
+                className='items__item-claim'
+            >
+                claim as
+            </button>
         </div>
     )
 }
