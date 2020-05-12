@@ -38,11 +38,11 @@ const UnknownClaimedItem = (
     return (
         <div className="items__item">
             <p className='items__item-label'>{props.item.claimedAs}</p>
-            {/* TODO image */}
-            <img className='items__item-image' src='' />
+            <img className='items__item-image' src={`./assets/items/${props.item.claimedAs}.png`} />
+            {/* TODO question mark image */}
             <img className='items__item-question-mark' src=''/>
             <button  
-                className='items__item-exchange'
+                className='items__item-button'
                 onClick={() => setPossibleOffersVisible(state => !state)}
             >
             exchange    

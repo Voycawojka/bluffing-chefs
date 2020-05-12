@@ -4,6 +4,7 @@ import * as api from '../../client/api'
 import { useState, useContext } from 'react'
 import { GameContext } from '../gameProvider/GameProvider'
 import DisplayItem from './DisplayItem'
+import ClaimPossibilities from './ClaimPossibilities'
 
 const KnownItem = (
     props: {
@@ -12,35 +13,20 @@ const KnownItem = (
     }
 ) => {
     const [claimPossibilitiesVisible, setClaimPossibilitiesVisible ] = useState(false)
-    const gameContext = useContext(GameContext)
-
-    function claim(asItem: string) {
-        api.claimItem(props.index, asItem)
-    }
-
-    const renderClaimPossiblities = gameContext.allItems.map(item => 
-        <div onClick={() => claim(item)}>
-            <DisplayItem item={item} />
-        </div>
-    )
 
     return (
-        <div className='items__item'>
+        <div className='items__item  items__item--player-item'>
             <p className='items__item-label'>{props.item.name}</p>
-            
-            {/* TODO image */}
-            <img className='items__item-image' src='' />
-            
-            
-            {
-                claimPossibilitiesVisible && <div> {renderClaimPossiblities} </div>
-            }
+            <img className='items__item-image' src={`./assets/items/${props.item.name}.png`} />
             <button  
-                onClick={() => setClaimPossibilitiesVisible(state => !state)}
-                className='items__item-claim'
+                onClick={() => setClaimPossibilitiesVisible(true)}
+                className='items__item-button'
             >
                 claim as
             </button>
+            { 
+                claimPossibilitiesVisible
+            && <ClaimPossibilities item={props.item} index={props.index} toggleDown={() => setClaimPossibilitiesVisible(false)} /> }
         </div>
     )
 }

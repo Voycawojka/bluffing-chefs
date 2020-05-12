@@ -54,14 +54,12 @@
     }
 
     &__heading {
-        @include font-rammeto;
-        font-size: 23px;
+        @include font-rammeto(23px);
         margin-bottom: 0;
     }
 
     &__description-content {
-        @include font-fahkwang;
-        font-size: 16px;
+        @include font-fahkwang(16px);
         width: 100%;
         margin-top: 10px;
         margin-bottom: 22px;
@@ -98,8 +96,7 @@
     }
 
     &__author-name {
-        @include font-rammeto;
-        font-size: 14px;
+        @include font-rammeto(14px);
     }
 
     &__author-social {

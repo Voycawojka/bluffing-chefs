@@ -67,9 +67,9 @@ const OfferTile = (
                 <p className='items__item-label'>{getClaimedItemNames[0]} for {getClaimedItemNames[1]}</p>
                 <div className='offers__offer-tile-image-container'>
                     {/* image from */}
-                    <img className='offers__offer-tile-image' src=''/>
+                    <img className='offers__offer-tile-image' src={`./assets/items/${getClaimedItemNames[0]}.png`}/>
                     {/* image to */}
-                    <img className='offers__offer-tile-image' src=''/>
+                    <img className='offers__offer-tile-image' src={`./assets/items/${getClaimedItemNames[1]}.png`}/>
                 </div>
                 {renderButtons}
             </div>

@@ -1,0 +1,40 @@
+@mixin modal {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: $color-dark-transparent;
+}
+
+@mixin modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $color-blue;
+}
+
+@mixin main-button($font-size) {
+    @include font-rammeto($font-size);
+    background-color: $primary-color;
+    color: $color-black;
+
+    &:hover {
+        background-color: $hover-color;
+        cursor: pointer;
+    }
+
+    &:active {
+        background-color: $click-color;
+    }
+
+    &:disabled {
+        background-color: $disabled-color;
+    }
+}
+
+@mixin main-button-variant-red {
+    
+}

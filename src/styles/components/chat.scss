@@ -24,7 +24,7 @@
     }
 
     &__input {
-        @include font-fahkwang;
+        @include font-fahkwang(13px);
         position: absolute;
         bottom: 0;
         left: 0;
@@ -38,6 +38,7 @@
 
         @include tablet {
             width: calc(100% - 80px);
+            border-radius: 0;
         }
     }
 
@@ -52,6 +53,10 @@
         width: 40px;
         height: 40px;
         border-radius: 0 0 12px 0;
+
+        @include tablet {
+            border-radius: 0;
+        }
     }
 
     &__key-toggle {
@@ -80,12 +85,33 @@
             display: none;
 
             &--visible {
+                
                 display: flex;
                 position: absolute;
-                bottom: 50px;
-                left: 2%;
-                height: 20px;
-                width: 96%;
+                width: 300px;
+                bottom: 58px;
+                right: 20px;
+                height: 24px;
+                background-color: $secondary-color;
+                border: 1px solid $color-black;
+                border-radius: 6px;
+
+                &::after {
+                    position: absolute;
+                    content: "";
+                    top: 100%;
+                    right: 40px;
+                    width: 10px;
+                    height: 10px;
+                  
+                    border: 1px solid black;
+                    border-right: 2px solid transparent;
+                    border-bottom: 2px solid transparent;
+                    transform: rotate(225deg);
+                    background-color: inherit;
+                    margin-right: -7px;
+                    margin-top: -7px;
+                  }
             }
         }
     }

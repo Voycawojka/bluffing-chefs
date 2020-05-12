@@ -117,7 +117,7 @@ export function subscribeForAcceptedOffers(onUpdate: Callback<AcceptOfferSuccess
 
 export function onGameEnd(): Promise<Victory> {
     return new Promise<Victory>(resolve => socket.on('game/end', (data: Victory) => {
-        socket.removeListener('game/end');
+        socket.removeListener('game/end')
         resolve(data)
-    }));
+    }))
 }

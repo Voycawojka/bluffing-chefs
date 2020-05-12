@@ -6,14 +6,22 @@ import Items from '../items/Items'
 import { GameContext } from '../gameProvider/GameProvider'
 import DisplayItem from '../items/DisplayItem'
 import Offers from '../offers/Offers'
+import EndGame from '../endGame/EndGame'
+import { Victory } from '../../shared/model/game'
 
 const Game = () => {
     const [currentDisplay, setCurrentDisplay] = useState(true)
+    const [endGameData, setEndGameData] = useState<Victory | null>(null)
     const gameContext = useContext(GameContext)
     
     useEffect(() => {
         api.getStartingData()
             .then(data => gameContext.setInitialData(data))
+    }, [])
+
+    useEffect(() => {
+        api.onGameEnd()
+            .then(data => setEndGameData(data))
     }, [])
 
     if (gameContext.allItems !== []) {
@@ -64,12 +72,11 @@ const Game = () => {
                         <Offers />
                         <div className='game__enemies'>
                             {renderEnemies}
-                            {renderEnemies}
-                            {renderEnemies}
-                            {renderEnemies}
                         </div>
                     </div>
                 </div>
+
+                {endGameData ? <EndGame endData={endGameData} /> : null}
             </div>
         )
     } else {

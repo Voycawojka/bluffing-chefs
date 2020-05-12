@@ -65,6 +65,7 @@ const Chat = () => {
                 <button 
                     onClick={event => toggleKeyVisibility(event)} 
                     className={`chat__key-toggle`}
+                    type="button"
                 >
                     <i className="fas fa-info"></i>
                 </button>

@@ -1,6 +1,5 @@
 .message {
-    @include font-fahkwang;
-    font-size: 13px;
+    @include font-fahkwang(13px);
     padding: 3px 10px;
 
     &__message-user {

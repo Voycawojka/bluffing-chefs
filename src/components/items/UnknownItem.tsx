@@ -14,7 +14,7 @@ const UnknownItem = (
             {/* TODO question mark image */}
             <img className='items__item-image' src='' />
             <button  
-                className='items__item-exchange'
+                className='items__item-button'
                 disabled
             >
                 exchange    

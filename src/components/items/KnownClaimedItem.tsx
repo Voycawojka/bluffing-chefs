@@ -8,14 +8,11 @@ const KnownClaimedItem = (
 ) => {
 
     return (
-        <div className="items__item">
+        <div className='items__item items__item--player-item'>
             <p className='items__item-label'>{props.item.name}</p>
-            
-            <img className='items__item-image' src='' />
-            
+            <img className='items__item-image' src={`./assets/items/${props.item.name}.png`} />
             <div className='items__item-claimed-container'>
-                {/* TODO image */}
-                <img className='items__item-claimed-image' src=''/>
+                <img className='items__item-claimed-image' src={`./assets/items/${props.item.claimedAs}.png`}/>
                 <p className='items__item-claimed-name' >{props.item.claimedAs}</p>
             </div>
         </div>
