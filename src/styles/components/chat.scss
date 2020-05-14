@@ -30,7 +30,7 @@
         left: 0;
         box-sizing: border-box;
         padding: 0 10px;
-        background-color: $color-grey;
+        background-color: $secondary-bg-color;
         border: none;
         height: 100%;
         width: calc(100% - 40px);
@@ -84,7 +84,7 @@
         @include tablet {
             display: none;
 
-            &--visible {
+            &--tooltip {
                 
                 display: flex;
                 position: absolute;
@@ -93,7 +93,7 @@
                 right: 20px;
                 height: 24px;
                 background-color: $secondary-color;
-                border: 1px solid $color-black;
+                border: 1px solid $black-color;
                 border-radius: 6px;
 
                 &::after {

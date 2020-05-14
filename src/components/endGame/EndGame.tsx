@@ -24,7 +24,6 @@ const EndGame = (
             <div className='end-game__content'>
                 <p className='end-game__result'>
                     <span>you have </span>
-                
                     {
                         isVictor 
                             ? <span className='end-game__result-positive'>won</span> 

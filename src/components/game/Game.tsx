@@ -17,14 +17,12 @@ const Game = () => {
     useEffect(() => {
         api.getStartingData()
             .then(data => gameContext.setInitialData(data))
-    }, [])
 
-    useEffect(() => {
         api.onGameEnd()
             .then(data => setEndGameData(data))
     }, [])
 
-    if (gameContext.allItems !== []) {
+    if (Array.isArray(gameContext.allItems) && gameContext.allItems.length) {
 
         const renderEnemies = gameContext.opponents.map(opponent =>
             <div className='game__enemy'>
@@ -53,14 +51,14 @@ const Game = () => {
 
                     <div className='game__item-display'>
                         <button 
-                            className={`game__button game__button--left ${currentDisplay ? 'game__button--left-active' : 'game__button--left-inactive'}`} 
+                            className={`game__button game__button--left game__button--left-${currentDisplay ? 'active' : 'inactive'}`}  
                             onClick={() => setCurrentDisplay(true)}
                         >
                         collect
                         </button>
 
                         <button 
-                            className={`game__button ${currentDisplay ? 'game__button--right-inactive' : 'game__button--right-active'}`}
+                            className={`game__button game__button--right-${currentDisplay ? 'inactive' : 'active'}`}
                             onClick={() => setCurrentDisplay(false)}
                         >
                         pool

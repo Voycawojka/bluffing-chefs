@@ -1,0 +1,25 @@
+.exchange-possibilites {
+    @include modal;
+
+    &__content {
+        @include modal-content;
+        width: 300px;
+    }
+
+    &__heading {
+        @include font-rammeto(16px);
+    }
+
+    &__container {
+        margin-top: 30px;
+        margin-bottom: 40px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    &__possibility {
+        margin: 15px;
+        cursor: pointer;
+    }
+}

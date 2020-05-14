@@ -25,7 +25,7 @@
         height: 75px;
         margin: 0 auto;
 
-        @include wider-phone {
+        @include phone-big {
             width: 300px;
         }
 
@@ -41,7 +41,7 @@
         width: 85%;
         margin: 30px auto;
 
-        @include wider-phone {
+        @include phone-big {
             width: 300px;
         }
 
@@ -69,7 +69,7 @@
         width: 85%;
         margin: 30px auto;
 
-        @include wider-phone {
+        @include phone-big {
             width: 300px;
         }
 
@@ -105,11 +105,11 @@
 
     &__social-icon {
         font-size: 26px;
-        color: black;
+        color: $black-color;
         margin-right: 15px;
 
         &:hover {
-            color: $color-dark;
+            color: $dark-color;
         }
     }
 }

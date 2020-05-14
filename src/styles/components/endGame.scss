@@ -24,7 +24,7 @@
 
     &__back-button {
         @include font-rammeto(15px);
-        border: 1px solid $color-black;
+        border: 1px solid $black-color;
         background-color: $primary-color;
         margin-top: 15px;
         width: 200px;

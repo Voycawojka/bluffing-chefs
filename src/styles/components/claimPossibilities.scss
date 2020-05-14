@@ -47,14 +47,14 @@
 
     &__honest-button {
         @include main-button(10px);
-        border: 1px solid $color-black;
+        border: 1px solid $black-color;
         text-transform: capitalize;
         display: block;
         margin: 0 auto;
     }
 
     &__exit {
-        border: 1px solid $color-black;
+        border: 1px solid $black-color;
         background-color: $secondary-color;
         width: 23px;
         height: 20px;

@@ -1,4 +1,4 @@
-@mixin wider-phone {
+@mixin phone-big {
     @media (min-width: 360px) {
         @content;
     }

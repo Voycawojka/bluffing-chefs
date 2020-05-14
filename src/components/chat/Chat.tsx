@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useInputChange } from '../../hooks/useInputChange'
 import { stringInRange } from '../../shared/utils/constraintUtils'
 import { MessageType } from '../../shared/model/message'
@@ -10,12 +10,11 @@ const Chat = () => {
     const [message, setMessage, resetMessage] = useInputChange(100, '')
     const [conversation, setConversation] = useState<MessageType[]>([])
     const [keyVisibility, setKeyVisibility] = useState(true)
+    const conversationRef = useRef<HTMLDivElement>(null)
 
     function scrollToBottom() {
-        const conversation = document.getElementById('conversation')
-
-        if (conversation) {
-            conversation.scrollTop = conversation.scrollHeight
+        if (conversationRef.current) {
+            conversationRef.current.scrollTop = conversationRef.current.scrollHeight
         }
     }
 
@@ -34,7 +33,7 @@ const Chat = () => {
     }, [])
 
     useEffect(() => {
-        if (window.innerWidth > 651) {
+        if (window.matchMedia('(min-width: 652px)').matches) {
             setKeyVisibility(false)
         }
     }, [])
@@ -52,7 +51,7 @@ const Chat = () => {
 
     return (
         <div className='chat'>
-            <div className='chat__conversation' id='conversation'>
+            <div className='chat__conversation' ref={conversationRef}>
                 {renderConversation}
             </div>
             <form className='chat__form' onSubmit={submitMessage}>
@@ -78,7 +77,7 @@ const Chat = () => {
                 </button>
 
             </form>
-            <div className={`chat__key ${keyVisibility ? 'chat__key--visible' : ''}`}>
+            <div className={`chat__key ${keyVisibility ? 'chat__key--tooltip' : ''}`}>
                 <span>*bold*</span>
                 <span>_italic_</span>
                 <span>~striked~</span>

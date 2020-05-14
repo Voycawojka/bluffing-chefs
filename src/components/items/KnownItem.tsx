@@ -26,7 +26,8 @@ const KnownItem = (
             </button>
             { 
                 claimPossibilitiesVisible
-            && <ClaimPossibilities item={props.item} index={props.index} toggleDown={() => setClaimPossibilitiesVisible(false)} /> }
+            && <ClaimPossibilities item={props.item} index={props.index} toggleDown={() => setClaimPossibilitiesVisible(false)} /> 
+            }
         </div>
     )
 }
