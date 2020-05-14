@@ -1,12 +1,26 @@
-import availableItems from '../data/items.json'
-import { KnownClaimedItem, KnownItem, UnknownItem, UnknownClaimedItem, PlayersItem, OpponentsItem, Indexed } from '../../shared/model/item'
+import { PlayersItem, OpponentsItem, Indexed } from '../../shared/model/item'
 
-export function getRandomItem(from: string[] = availableItems): string {
+export function getRandomItem(from: string[]): string {
     return from[Math.floor(Math.random() * from.length)]
 }
 
-export function getRandomItems(ammount: number, from: string[] = availableItems): string[] {
-    return Array.from({ length: ammount }).map(() => getRandomItem(from))
+export function getRandomItems(ammount: number, from: string[], unique: boolean): string[] {
+    const picks = Array.from({length: ammount })
+
+    if (unique) {
+        const pool = [...from]
+        const picked: string[] = []
+
+        picks.forEach(() => {
+            const item = getRandomItem(pool);
+            picked.push(item);
+            pool.splice(pool.indexOf(item), 1);
+        })
+
+        return picked;
+    }
+
+    return picks.map(() => getRandomItem(from))
 }
 
 export class Item {

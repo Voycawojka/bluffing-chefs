@@ -1,4 +1,4 @@
-import { UnknownClaimedItem, Indexed } from "./item";
+import { UnknownClaimedItem, Indexed } from './item'
 
 export interface UserMessage {
     type: 'user-message',

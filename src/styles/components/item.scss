@@ -1,0 +1,124 @@
+.items {
+    margin: 1px;
+
+    &__item {
+        position: relative;
+        width: 60px;
+        border: 1px solid $black-color;
+        text-align: center;
+
+        &--display {
+            display: inline-block;
+            margin: 0 5px 5px 5px;
+        }
+
+        &--player-item {
+            @include tablet-small {
+                width: 68px;
+            }
+
+            @include tablet {
+                width: 60px;
+            }
+
+            @include tablet-big {
+                width: 68px;
+            }
+        }
+    }
+
+    &__item-label {
+        @include font-faustina(10px);
+        text-align: center;
+        text-transform: capitalize;
+        background-color: $secondary-color;
+        height: 13px;
+        margin: 0;
+        padding: 1px 2px;
+        border-bottom: 1px solid $black-color;
+    }
+
+    &__item-image {
+        display: block;
+        background-color: $white-color;
+        box-sizing: border-box;
+        width: 100%;
+        height: 54px;
+    }
+
+    &__item-question-mark {
+        position: absolute;
+        right: 0;
+        top: 49px;
+        display: block;
+        height: 20px;
+        width: 20px;
+        border: 1px solid $black-color;
+        background-color: $white-color;
+    }
+
+    &__item-button {
+        @include main-button(9px);
+        box-sizing: border-box;
+        border: none;
+        text-transform: capitalize;
+        width: 100%;
+        height: 22px;
+        padding: 2px;
+        border-top: 1px solid $black-color;
+    }
+
+
+    &__item-claimed-container {
+        position: relative;
+        border-top: 1px solid $black-color;
+        width: 100%;
+        height: 22px;
+    }
+
+    &__item-claimed-image {
+        position: absolute;
+        box-sizing: border-box;
+        left: 0;
+        top: 0;
+        width: 22px;
+        height: 22px;
+        border-right: 1px solid $black-color;
+        background-color: $white-color;
+    }
+
+    &__item-claimed-name {
+        @include font-faustina(10px);
+        background-color: $secondary-color;
+        text-transform: capitalize;
+        white-space: nowrap;
+        box-sizing: border-box;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: calc(100% - 22px);
+        height: 22px;
+        padding: 4px 2px;
+    }
+
+    &__list {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-evenly;
+
+        &--scrollable {
+            margin: 15px 2px;
+            display: block;
+            overflow: auto;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        &--enemy-list {
+            margin-top: 14px;
+        }
+    }
+}

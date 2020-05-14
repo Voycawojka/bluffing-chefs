@@ -1,27 +1,29 @@
 import * as React from 'react'
-import HiddenItem, { HiddenItemObject } from './HiddenItem'
-import ClaimedItem, { ClaimedItemObject } from './ClaimedItem'
-import OwnedItem, { OwnedItemObject } from './OwnedItem'
-import KnownItem, { KnownItemObject } from './KnownItem'
+import UnknownItem from './UnknownItem'
+import KnownClaimedItem from './KnownClaimedItem'
+import UnknownClaimedItem from './UnknownClaimedItem'
+import KnownItem from './KnownItem'
+import { OpponentsItem, PlayersItem } from '../../shared/model/item'
 
-export type ItemObject = HiddenItemObject | ClaimedItemObject | OwnedItemObject | KnownItemObject
+export type ItemObject = OpponentsItem | PlayersItem
 
 const Item = (
     props: {
-        item: ItemObject
+        item: ItemObject,
+        index: number
     }
 ) => {
 
     const content = (() => {
         switch(props.item.type) {
-            case 'HIDDEN_ITEM': 
-                return <HiddenItem item={props.item} />
-            case 'CLAIMED_ITEM':
-                return <ClaimedItem item={props.item}/>
-            case 'OWNED_ITEM':
-                return <OwnedItem item={props.item}/>
-            case 'KNOWN_ITEM':
-                return <KnownItem item={props.item}/>
+            case 'unknown-item': 
+                return <UnknownItem item={props.item} />
+            case 'known-claimed-item':
+                return <KnownClaimedItem item={props.item}/>
+            case 'unknown-claimed-item':
+                return <UnknownClaimedItem item={props.item}/>
+            case 'known-item':
+                return <KnownItem item={props.item} index={props.index} />
         }
     })()
 

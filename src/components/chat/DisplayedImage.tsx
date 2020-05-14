@@ -9,7 +9,7 @@ const DisplayedImage = (
     return (
         <img 
             className="displayed-image" 
-            src="https://preview.pixlr.com/images/800wm/100/1/1001468329.jpg" 
+            src={`./assets/items/${props.name}.png`}
             alt={props.name}
             title={props.name}
         />

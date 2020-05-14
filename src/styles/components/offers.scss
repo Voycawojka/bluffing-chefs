@@ -1,0 +1,53 @@
+.offers {
+    width: 90%;
+    margin: 0 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-gap: 14px;
+    justify-content: space-evenly;
+
+    &__offer-tile {
+        width: 100px;
+    }
+
+    &__offer-content {
+        border: 1px solid $black-color;
+    }
+
+    &__offer-tile-owner {
+        @include font-rammeto(12px);
+        padding: 0 5px;
+        text-align: center;
+    }
+
+    &__offer-tile-image-container {
+        height: 54px;
+    }
+
+    &__offer-tile-image {
+        background-color: $white-color;
+        width: 50%;
+        height: 100%;
+    }
+
+    &__offer-tile-button {
+        @include main-button(10px);
+        text-align: center;
+        text-transform: capitalize;
+        box-sizing: border-box;
+        width: 100%;
+        height: 20px;
+        border: none;
+        border-top: 1px solid $black-color;
+        
+        &--left {
+            width: 50%;
+            border-right: 1px solid $black-color;
+        }
+
+        &--right {
+            width: 50%;
+            background-color: $alert-color;
+        }
+    }
+}

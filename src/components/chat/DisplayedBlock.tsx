@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { TextBlock, Style } from "../../utils/formatter/formatter"
-import DisplayedImage from "./DisplayedImage"
+import { TextBlock, Style } from '../../utils/formatter/formatter'
+import DisplayedImage from './DisplayedImage'
 
 const DisplayedBlock = (
     props: {
@@ -10,12 +10,12 @@ const DisplayedBlock = (
 
     const isImage = props.block.styles.includes(Style.itemAsset)
 
-    const className = props.block.styles.map(style => Style[style]).join(" ")
+    const className = props.block.styles.map(style => Style[style]).join(' ')
 
     return (
         isImage 
-        ? <DisplayedImage name={props.block.content}/>
-        : <span className={className}>{props.block.content}</span>
+            ? <DisplayedImage name={props.block.content}/>
+            : <span className={className}>{props.block.content}</span>
     )
 }
 

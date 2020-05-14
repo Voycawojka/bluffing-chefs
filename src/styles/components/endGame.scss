@@ -1,0 +1,32 @@
+.end-game {
+    @include modal;
+
+    &__content {
+        @include modal-content;
+        width: 100%;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    &__result {
+        @include font-rammeto(20px);
+        text-transform: capitalize;
+        margin-top: 0;
+    }
+
+    &__result-negative {
+        color: $alert-color;
+    }
+
+    &__result-positive {
+        color: $primary-color;
+    }
+
+    &__back-button {
+        @include font-rammeto(15px);
+        border: 1px solid $black-color;
+        background-color: $primary-color;
+        margin-top: 15px;
+        width: 200px;
+    }
+}

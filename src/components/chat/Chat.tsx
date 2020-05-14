@@ -1,21 +1,46 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useInputChange } from '../../hooks/useInputChange'
 import { stringInRange } from '../../shared/utils/constraintUtils'
 import { MessageType } from '../../shared/model/message'
 import Message from './Message'
+import * as api from '../../client/api'
 
 const Chat = () => {
-    const [message, setMessage, resetMessage] = useInputChange(100)
+    const [message, setMessage, resetMessage] = useInputChange(100, '')
     const [conversation, setConversation] = useState<MessageType[]>([])
+    const [keyVisibility, setKeyVisibility] = useState(true)
+    const conversationRef = useRef<HTMLDivElement>(null)
+
+    function scrollToBottom() {
+        if (conversationRef.current) {
+            conversationRef.current.scrollTop = conversationRef.current.scrollHeight
+        }
+    }
+
+    function toggleKeyVisibility(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        event.preventDefault()
+        setKeyVisibility(visibility => !visibility)
+    }
 
     useEffect(() => {
-        // function subscribing conversation 
+        const unsubMessage = api.subscribeForChatMessage(message => {
+            setConversation(conversation => [...conversation, message])
+            scrollToBottom()
+        })
+
+        return () => unsubMessage()
     }, [])
 
+    useEffect(() => {
+        if (window.matchMedia('(min-width: 652px)').matches) {
+            setKeyVisibility(false)
+        }
+    }, [])
+    
     function submitMessage(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        // submiting message
+        api.sendMessage(message)
 
         resetMessage()
     }
@@ -25,23 +50,40 @@ const Chat = () => {
     )
 
     return (
-       <div className='chat'>
-           <div className='chat__conversation'>
+        <div className='chat'>
+            <div className='chat__conversation' ref={conversationRef}>
                 {renderConversation}
-           </div>
-            <form onSubmit={submitMessage}>
+            </div>
+            <form className='chat__form' onSubmit={submitMessage}>
                 <input
+                    className='chat__input'
                     type='text'
                     value={message}
                     onChange={setMessage}
                 />
-                <input
+                <button 
+                    onClick={event => toggleKeyVisibility(event)} 
+                    className={`chat__key-toggle`}
+                    type="button"
+                >
+                    <i className="fas fa-info"></i>
+                </button>
+                <button
+                    className='chat__submit'
                     type='submit'
-                    value='submit'
                     disabled={!stringInRange(message, 1, 100)}
-                />
-            </form>     
-       </div>
+                >
+                    <i className="fas fa-paper-plane"></i>
+                </button>
+
+            </form>
+            <div className={`chat__key ${keyVisibility ? 'chat__key--tooltip' : ''}`}>
+                <span>*bold*</span>
+                <span>_italic_</span>
+                <span>~striked~</span>
+                <span>[ingredient]</span>
+            </div>     
+        </div>
     )
 }
 

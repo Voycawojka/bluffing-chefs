@@ -1,0 +1,18 @@
+.message {
+    @include font-fahkwang(13px);
+    padding: 3px 10px;
+
+    &__message-user {
+        font-weight: 600;
+        &::after {
+            content: $nbsp;
+        }
+    }
+
+    &__special {
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+        color: $dark-color;
+    }
+}

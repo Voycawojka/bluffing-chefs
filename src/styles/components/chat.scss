@@ -1,0 +1,118 @@
+.chat {
+    height: 385px;
+
+    @include tablet {
+        position: relative;
+        height: 100%;
+    }
+
+    &__conversation {
+        overflow-x: auto;
+        height: 83%;
+        padding-top: 15px;
+        background-color: white;
+
+        @include tablet {
+            height: calc(100% - 40px);
+            padding-top: 0px;
+        }
+    }
+
+    &__form {
+        height: 40px;
+        position: relative;
+    }
+
+    &__input {
+        @include font-fahkwang(13px);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        box-sizing: border-box;
+        padding: 0 10px;
+        background-color: $secondary-bg-color;
+        border: none;
+        height: 100%;
+        width: calc(100% - 40px);
+        border-radius: 0 0 0 12px;
+
+        @include tablet {
+            width: calc(100% - 80px);
+            border-radius: 0;
+        }
+    }
+
+    &__submit {
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 0;
+        border: none;
+        background-color: $primary-color;
+        width: 40px;
+        height: 40px;
+        border-radius: 0 0 12px 0;
+
+        @include tablet {
+            border-radius: 0;
+        }
+    }
+
+    &__key-toggle {
+        display: none;
+
+        @include tablet {
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: none;
+            bottom: 0;
+            right: 40px;
+            background-color: $secondary-color;
+        }
+    }
+
+    &__key {
+        padding-top: 5px;
+        height: 20px;
+        display: flex;
+        justify-content: space-evenly;
+
+        @include tablet {
+            display: none;
+
+            &--tooltip {
+                
+                display: flex;
+                position: absolute;
+                width: 300px;
+                bottom: 58px;
+                right: 20px;
+                height: 24px;
+                background-color: $secondary-color;
+                border: 1px solid $black-color;
+                border-radius: 6px;
+
+                &::after {
+                    position: absolute;
+                    content: "";
+                    top: 100%;
+                    right: 40px;
+                    width: 10px;
+                    height: 10px;
+                  
+                    border: 1px solid black;
+                    border-right: 2px solid transparent;
+                    border-bottom: 2px solid transparent;
+                    transform: rotate(225deg);
+                    background-color: inherit;
+                    margin-right: -7px;
+                    margin-top: -7px;
+                  }
+            }
+        }
+    }
+}

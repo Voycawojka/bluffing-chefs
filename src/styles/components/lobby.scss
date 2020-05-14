@@ -1,0 +1,41 @@
+.lobby {
+    position: relative;
+    width: 85%;
+    margin: 0 auto;
+    margin-top: 40px;
+
+    @include phone-big {
+        width: 300px;
+    }
+
+    @include tablet {
+        margin-top: 0;
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        margin: 0 auto;
+    } 
+
+    &__hourglass {
+        display: block;
+        width: 63px;
+        height: 70px;
+    }
+
+    &__content-container {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    &__content {
+        width: 200px;
+        margin-left: 20px;
+    }
+
+    &__content-paragraph {
+        @include font-fahkwang(15px);
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+}

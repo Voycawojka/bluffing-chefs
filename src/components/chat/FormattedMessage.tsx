@@ -10,7 +10,7 @@ const FormattedMessage = (
 
     const content = parse(props.msg)
 
-    const renderContent = content.map((msg, index ) => <DisplayedBlock block={msg} key={index}/> )
+    const renderContent = content.map((msg, index) => <DisplayedBlock block={msg} key={index}/> )
 
     return (
         <>

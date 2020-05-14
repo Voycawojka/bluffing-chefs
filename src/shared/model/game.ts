@@ -1,4 +1,4 @@
-import { PlayersItem, KnownClaimedItem, UnknownClaimedItem, KnownItem } from "./item";
+import { PlayersItem, KnownClaimedItem, UnknownClaimedItem, KnownItem } from './item'
 
 export interface ErrorResponse {
     success: false
