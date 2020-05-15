@@ -53,6 +53,11 @@
         width: 40px;
         height: 40px;
         border-radius: 0 0 12px 0;
+        cursor: pointer;
+
+        &:disabled {
+            cursor: default;
+        }
 
         @include tablet {
             border-radius: 0;
@@ -63,6 +68,7 @@
         display: none;
 
         @include tablet {
+            cursor: pointer;
             display: block;
             box-sizing: border-box;
             position: absolute;
@@ -85,7 +91,6 @@
             display: none;
 
             &--tooltip {
-                
                 display: flex;
                 position: absolute;
                 width: 300px;
@@ -103,7 +108,7 @@
                     right: 40px;
                     width: 10px;
                     height: 10px;
-                  
+
                     border: 1px solid black;
                     border-right: 2px solid transparent;
                     border-bottom: 2px solid transparent;
@@ -111,7 +116,7 @@
                     background-color: inherit;
                     margin-right: -7px;
                     margin-top: -7px;
-                  }
+                }
             }
         }
     }
