@@ -34,7 +34,7 @@ const Lobby = (
 
     return (
         <div className='lobby'>
-            <h2 className='landing-page__heading'>Lookin' for players...</h2>
+            <h2 className='landing-page__heading'>Looking for players...</h2>
             <div className='lobby__content-container'>
                 <img className='lobby__hourglass' src='./assets/hourglass.png'></img>
                 <div className='lobby__content'>
