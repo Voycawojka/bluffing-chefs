@@ -30,8 +30,9 @@ const ExchangePossibilities = (
         }
     }
 
-    const renderPossibilities = props.unproposedClaims.map(item => 
+    const renderPossibilities = props.unproposedClaims.map((item, index) => 
         <div
+            key={index}
             className='exchange-possibilites__possibility'
             onClick={() => handleSelection(item)}
         >

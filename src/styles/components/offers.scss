@@ -49,5 +49,9 @@
             @include nope-button(10px);
             width: 50%;
         }
+
+        &--cancel {
+            @include nope-button(10px);
+        }
     }
 }
