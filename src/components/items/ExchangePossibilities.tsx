@@ -30,8 +30,9 @@ const ExchangePossibilities = (
         }
     }
 
-    const renderPossibilities = props.unproposedClaims.map(item => 
+    const renderPossibilities = props.unproposedClaims.map((item, index) => 
         <div
+            key={index}
             className='exchange-possibilites__possibility'
             onClick={() => handleSelection(item)}
         >
@@ -46,7 +47,7 @@ const ExchangePossibilities = (
                 <div className='exchange-possibilites__container'>
                     {renderPossibilities}
                 </div>
-                <button className='claim-possibilites__exit' onClick={props.toggleDown}>
+                <button className='exchange-possibilites__exit' onClick={props.toggleDown}>
                     <i className="fas fa-times"></i>
                 </button>
             </div>

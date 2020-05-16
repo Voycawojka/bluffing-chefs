@@ -54,7 +54,7 @@ const OfferTile = (
     })()
 
     const renderButtons = isMyOffer 
-        ? <button className='offers__offer-tile-button' onClick={denyOffer}>cancel</button>
+        ? <button className='offers__offer-tile-button offers__offer-tile-button--cancel' onClick={denyOffer}>cancel</button>
         : <>
             <button className='offers__offer-tile-button offers__offer-tile-button--left' onClick={acceptOffer}>deal</button>
             <button className='offers__offer-tile-button offers__offer-tile-button--right' onClick={denyOffer}>no</button>

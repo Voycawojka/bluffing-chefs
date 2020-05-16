@@ -11,8 +11,7 @@ const UnknownItem = (
     return (
         <div className="items__item">
             <p className='items__item-label'>unknown</p>
-            {/* TODO question mark image */}
-            <img className='items__item-image' src='' />
+            <img className='items__item-image' src='./assets/items/unknown.png' />
             <button  
                 className='items__item-button'
                 disabled

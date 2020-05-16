@@ -22,4 +22,8 @@
         margin: 15px;
         cursor: pointer;
     }
+
+    &__exit {
+        @include modal-exit-button;
+    }
 }

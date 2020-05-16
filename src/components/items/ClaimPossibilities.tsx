@@ -21,8 +21,8 @@ const ClaimPossibilities = (
 
     const possibleLies = [...new Set(gameContext.allItems)].filter(item => item !== props.item.name)
 
-    const renderLiePossiblities = possibleLies.map(item => 
-        <ClaimLieItem item={item} claimHandler={() => claim(item)} />
+    const renderLiePossiblities = possibleLies.map((item, index) => 
+        <ClaimLieItem item={item} claimHandler={() => claim(item)} key={index}/>
     )
 
     return (

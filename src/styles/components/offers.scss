@@ -31,7 +31,6 @@
     }
 
     &__offer-tile-button {
-        @include main-button(10px);
         text-align: center;
         text-transform: capitalize;
         box-sizing: border-box;
@@ -41,13 +40,18 @@
         border-top: 1px solid $black-color;
         
         &--left {
+            @include main-button(10px);
             width: 50%;
             border-right: 1px solid $black-color;
         }
 
         &--right {
+            @include nope-button(10px);
             width: 50%;
-            background-color: $alert-color;
+        }
+
+        &--cancel {
+            @include nope-button(10px);
         }
     }
 }

@@ -23,8 +23,7 @@ const UnknownClaimedItem = (
         <div className="items__item">
             <p className='items__item-label'>{props.item.claimedAs}</p>
             <img className='items__item-image' src={`./assets/items/${props.item.claimedAs}.png`} />
-            {/* TODO question mark image */}
-            <img className='items__item-question-mark' src=''/>
+            <img className='items__item-question-mark' src='./assets/items/unknown.png'/>
             <button  
                 className='items__item-button'
                 onClick={() => setPossibleOffersVisible(true)}

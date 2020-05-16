@@ -16,14 +16,41 @@
     background-color: $primary-bg-color;
 }
 
-@mixin main-button($font-size) {
+@mixin modal-exit-button {
+    border: 1px solid $black-color;
+    background-color: $secondary-color;
+    width: 23px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+
+    &:hover {
+        background-color: $secondary-hover-color;
+        cursor: pointer;
+    }
+
+    &:active {
+        background-color: $secondary-click-color;
+    }
+}
+
+@mixin button($font-size) {
     @include font-rammeto($font-size);
-    background-color: $primary-color;
     color: $black-color;
 
     &:hover {
-        background-color: $hover-color;
         cursor: pointer;
+    }
+}
+
+@mixin main-button($font-size) {
+    @include button($font-size);
+    background-color: $primary-color;
+
+    &:hover {
+        background-color: $hover-color;
     }
 
     &:active {
@@ -35,7 +62,19 @@
     }
 }
 
-//TODO
-@mixin main-button-variant-red {
-    
+@mixin nope-button($font-size) {
+    @include button($font-size);
+    background-color: $alert-color;
+
+    &:hover {
+        background-color: $alert-hover-color;
+    }
+
+    &:active {
+        background-color: $alert-click-color;
+    }
+
+    &:disabled {
+        background-color: $alert-click-color;
+    }
 }
