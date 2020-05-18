@@ -9,7 +9,7 @@ import { registerPageView } from '../../utils/analytics'
 const LandingPage = () => {
     const [inQueue, setInQueue] = useState(false)
 
-    useEffect(() => registerPageView('landing page'))
+    useEffect(() => registerPageView('landing page'), [])
 
     return (
         <div className='landing-page'>
