@@ -5,6 +5,7 @@ import * as api from '../../client/api'
 import { stringInRange } from '../../shared/utils/constraintUtils'
 import { useInputChange } from '../../hooks/useInputChange'
 import { GameContext } from './../gameProvider/GameProvider'
+import { registerEvent } from '../../utils/analytics'
 
 function getOrCreateNickname(): string {
     const savedNickname = Cookies.get('nickname')
@@ -33,6 +34,7 @@ const GameEnter = (
                 props.setInQueue(true)
                 gameContext.setUserName(name)
                 Cookies.set('nickname', name)
+                registerEvent('join_queue')
             })
     }
 

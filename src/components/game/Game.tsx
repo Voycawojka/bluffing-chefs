@@ -8,6 +8,7 @@ import DisplayItem from '../items/DisplayItem'
 import Offers from '../offers/Offers'
 import EndGame from '../endGame/EndGame'
 import { Victory } from '../../shared/model/game'
+import { registerVirtualPageView } from '../../utils/analytics'
 
 const Game = () => {
     const [currentDisplay, setCurrentDisplay] = useState(true)
@@ -20,6 +21,8 @@ const Game = () => {
 
         api.onGameEnd()
             .then(data => setEndGameData(data))
+
+        registerVirtualPageView('in game')
     }, [])
 
     if (Array.isArray(gameContext.allItems) && gameContext.allItems.length) {
