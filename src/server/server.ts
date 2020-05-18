@@ -7,6 +7,7 @@ const http = express()
 http.use(express.static(__dirname + '/../public'))
 
 const port = process.env.PORT || 3000
+// eslint-disable-next-line no-console
 const server = http.listen(port, () => console.log(`Listening on *:${port}`))
 const io = socketIo(server)
 
