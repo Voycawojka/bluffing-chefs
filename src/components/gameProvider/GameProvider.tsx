@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { StartingData } from '../../shared/model/game'
 import { PlayersItem, OpponentsItem, UnknownClaimedItem } from '../../shared/model/item'
 import { ItemDeclaration, Transaction } from '../../shared/model/message'
