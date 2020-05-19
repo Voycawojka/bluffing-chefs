@@ -15,5 +15,9 @@
         @include modal-exit-button;
         border: none;
         border-radius: 10px;
+
+        &:hover {
+            background-color: $secondary-color;
+        }
     }
 }

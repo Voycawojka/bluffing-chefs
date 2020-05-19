@@ -1,18 +1,13 @@
 .lobby {
     position: relative;
-    width: 85%;
-    margin: 0 auto;
-    margin-top: 40px;
+    max-width: 300px;
+    margin: 40px auto 0 auto;
 
-    @include phone-big {
-        width: 300px;
-    }
-
-    @include tablet {
-        margin-top: 0;
+    @include tablet-small {
+        max-width: none;
+        margin: 20px 0 0 0;
         grid-column: 1 / 2;
         grid-row: 2 / 3;
-        margin: 0 auto;
     } 
 
     &__hourglass {

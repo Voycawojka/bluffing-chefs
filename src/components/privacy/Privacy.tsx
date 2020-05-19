@@ -1,7 +1,11 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { registerPageView } from '../../utils/analytics'
 
 const Privacy = () => {
+    useEffect(() => registerPageView('policy'), [])
+
     return (
         <div className='privacy'>
             <h2 className='privacy__heading'>

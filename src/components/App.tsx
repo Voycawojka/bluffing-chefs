@@ -4,18 +4,16 @@ import AppProvider, { AppContext } from './appProvider/AppProvider'
 import Game from './game/Game'
 import Privacy from './privacy/Privacy'
 import GameProvider from './gameProvider/GameProvider'
-import CookiePopup from './landingPage/CookiePopup'
+import CookiePopup from './cookiePopup/CookiePopup'
 import {
     BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
+    Route
 } from 'react-router-dom'
 
 const App = () => {
     return (
         <Router>
-            <Route path='/privacy' component={CookiePopup} />
+            <Route path='/' component={CookiePopup} />
             <Route exact path='/'>
                 <AppProvider>
                     <GameProvider> 
@@ -34,9 +32,7 @@ const App = () => {
                     </GameProvider>
                 </AppProvider>
             </Route>
-            
             <Route path='/privacy' component={Privacy} />
-
         </Router>
     )
 }
