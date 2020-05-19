@@ -7,11 +7,11 @@ const CookiePopup = () => {
     const [isCookiesAcknowledged, setIsCookiesAcknowledged] = useState(false)
     
     useEffect(() => {
-        setIsCookiesAcknowledged(!!Cookies.get('cookies-acknowledged'))
+        setIsCookiesAcknowledged(Cookies.get('cookies-acknowledged') === 'true')
     }, [])
 
     function handleExit() {
-        Cookies.set('cookies-acknowledged', 'acknowledged')
+        Cookies.set('cookies-acknowledged', 'true')
 
         setIsCookiesAcknowledged(true)
     }
