@@ -40,12 +40,14 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",
     "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
   }
