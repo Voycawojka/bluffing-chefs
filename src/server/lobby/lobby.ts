@@ -31,8 +31,6 @@ export function setupLobby(player: Player) {
     const socket = player.socket
 
     socket.on('matchMaking/queue/join', (username: string) => {
-        console.log(`Player joined queue as ${username}`)
-
         players[socket.id].username = username
         queue.add(player)
 

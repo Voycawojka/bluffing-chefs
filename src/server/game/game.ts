@@ -1,11 +1,13 @@
-import availableItems from "../data/items.json"
-import { Player, InGamePlayer } from "./players";
-import { Server } from "socket.io";
-import { MessageType, UserMessage } from "../../shared/model/message";
-import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferSuccessResponse, CancelOfferResponse, ErrorResponse, RejectOfferResponse, AcceptOfferResponse, Victory } from "../../shared/model/game";
-import { KnownClaimedItem, UnknownClaimedItem, Indexed, KnownItem } from "../../shared/model/item";
-import { Market } from "./market";
-import { getRandomItems, Item } from "./items";
+import availableItems from '../data/items.json'
+import { Player, InGamePlayer } from './players'
+import { Server } from 'socket.io'
+import { MessageType, UserMessage } from '../../shared/model/message'
+import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferSuccessResponse, CancelOfferResponse, ErrorResponse, RejectOfferResponse, AcceptOfferResponse, Victory } from '../../shared/model/game'
+import { KnownClaimedItem, UnknownClaimedItem, Indexed, KnownItem } from '../../shared/model/item'
+import { Market } from './market'
+import { getRandomItems, Item } from './items'
+
+export const games: Game[] = []
 
 export class Game {
     private id: number
@@ -79,13 +81,13 @@ export class Game {
     }
 
     private handlePossibleVictory(): void {
-        const winners = [];
+        const winners = []
 
         for (const player of this.players) {
             let won = player.neededItems.every(neededItem => player.items.contains(neededItem))
 
             if (won) {
-                winners.push(player);
+                winners.push(player)
             }
         }
 
@@ -94,14 +96,12 @@ export class Game {
                 victors: winners.map(winner => ({ username: winner.username, neededItems: winner.neededItems }))
             }
             this.emitToPlayers('game/end', victory)
-            games.splice(games.indexOf(this), 1);
+            games.splice(games.indexOf(this), 1)
         }
     }
 
     private setupChat(player: InGamePlayer): void {
         player.socket.on('game/sendMessage', (content: string) => {
-            console.log(`${this.id} | [${player.username}] ${content}`)
-
             const message: UserMessage = {
                 type: 'user-message',
                 user: player.username,
@@ -257,9 +257,8 @@ export class Game {
             opponent.socket.emit('game/acceptedOffer', opponentResponse)
             this.emitChatMessage(chatMessage)
 
-            this.handlePossibleVictory();
+            this.handlePossibleVictory()
         })
     }
 }
 
-export const games: Game[] = []
