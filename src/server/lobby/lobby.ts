@@ -30,7 +30,7 @@ function tryCreateGame(io: Server) {
 function makeUniqueUsername(original: string, num: number = 2): string {
     const unique = `${original} [${num}]`
 
-    if (!isUsernameTaken(unique) || num === 69) {
+    if (!isUsernameTaken(unique) && num !== 69) {
         return unique
     }
 
