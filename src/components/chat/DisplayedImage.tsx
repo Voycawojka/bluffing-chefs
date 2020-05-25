@@ -8,7 +8,7 @@ const DisplayedImage = (
 
     return (
         <img 
-            className="displayed-image" 
+            className='displayed-image' 
             src={`./assets/items/${props.name}.png`}
             alt={props.name}
             title={props.name}

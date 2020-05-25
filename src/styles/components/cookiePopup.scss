@@ -1,0 +1,23 @@
+.cookie-popup {
+    @include font-faustina(16px);
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: $secondary-color;
+    box-sizing: border-box;
+    min-width: 270px;
+    padding: 20px;
+    border: 1px solid $black-color;
+    border-radius: 10px;
+
+    &__exit-button {
+        @include modal-exit-button;
+        border: none;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: $secondary-color;
+        }
+    }
+}
