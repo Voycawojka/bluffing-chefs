@@ -33,9 +33,9 @@ const GameEnter = (
         registerEvent('join_queue')
 
         api.joinRandomQueue(name)
-            .then(() => {
+            .then(serverUsername => {
                 props.setInQueue(true)
-                gameContext.setUserName(name)
+                gameContext.setUserName(serverUsername)
             })
     }
 

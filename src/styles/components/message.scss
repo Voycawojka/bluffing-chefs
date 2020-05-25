@@ -1,5 +1,5 @@
 .message {
-    @include font-fahkwang(13px);
+    @include font-fahkwang(15px);
     padding: 3px 10px;
 
     &__message-user {
@@ -11,7 +11,7 @@
 
     &__special {
         padding: 5px;
-        font-size: 12px;
+        font-style: italic;
         text-align: center;
         color: $dark-color;
     }

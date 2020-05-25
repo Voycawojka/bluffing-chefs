@@ -22,12 +22,12 @@
 
     &__offer-tile-image-container {
         height: 54px;
+        background-color: $white-color;
     }
 
     &__offer-tile-image {
         background-color: $white-color;
         width: 50%;
-        height: 100%;
     }
 
     &__offer-tile-button {

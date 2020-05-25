@@ -1,8 +1,8 @@
-import { Player, players } from "../game/players"
-import { queue } from "./queue"
-import config from "../../shared/config"
-import { Game, games } from "../game/game"
-import { Server } from "socket.io"
+import { Player, players, isUsernameTaken } from '../game/players'
+import { queue } from './queue'
+import config from '../../shared/config'
+import { Game, games } from '../game/game'
+import { Server } from 'socket.io'
 
 function tryCreateGame(io: Server) {
     if (queue.length >= config.minPlayers) {
@@ -27,16 +27,31 @@ function tryCreateGame(io: Server) {
     }
 }
 
+function makeUniqueUsername(original: string, num: number = 2): string {
+    const unique = `${original} [${num}]`
+
+    if (!isUsernameTaken(unique) || num === 69) {
+        return unique
+    }
+
+    return makeUniqueUsername(original, num + 1)
+}
+
 export function setupLobby(player: Player) {
     const socket = player.socket
 
     socket.on('matchMaking/queue/join', (username: string) => {
+        if (isUsernameTaken(username)) {
+            // TODO remove this and just forbid duplicate usernames (requires frontend work too)
+            username = makeUniqueUsername(username)
+        }
+
         players[socket.id].username = username
         queue.add(player)
 
         tryCreateGame(socket.server)
 
-        socket.emit('matchMaking/queue/joined')
+        socket.emit('matchMaking/queue/joined', username)
         queue.emitSize(socket.server)
     })
 

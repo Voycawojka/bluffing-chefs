@@ -44,9 +44,9 @@ const OfferTile = (
 
         if (isMyOffer) {
             offeredItem = gameContext.items[props.offer.offeredItemIndex] as KnownClaimedItem
-            forItem = gameContext.opponents.find(opponent => opponent.name)?.items[props.offer.forItemIndex] as UnknownClaimedItem
+            forItem = gameContext.opponents.find(opponent => opponent.name === props.offer.to)?.items[props.offer.forItemIndex] as UnknownClaimedItem
         } else {
-            offeredItem = gameContext.opponents.find(opponent => opponent.name)?.items[props.offer.offeredItemIndex] as UnknownClaimedItem
+            offeredItem = gameContext.opponents.find(opponent => opponent.name === props.offer.from)?.items[props.offer.offeredItemIndex] as UnknownClaimedItem
             forItem = gameContext.items[props.offer.forItemIndex] as KnownClaimedItem
         }
 

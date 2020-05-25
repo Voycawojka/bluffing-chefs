@@ -12,8 +12,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -60%);
-        grid-template-columns: 50% 50%;
-        grid-template-rows: auto auto auto auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
         gap: 30px 45px; 
     }
 
@@ -39,7 +39,7 @@
         }
 
         @include tablet-small {
-            width: 85%;
+            width: 100%;
             margin: 0;
             grid-column: 2 / 3;
             grid-row: 2 / 4;
@@ -48,14 +48,21 @@
 
     &__heading {
         @include font-rammeto(23px);
-        margin-bottom: 0;
+        margin-bottom: 10px;
     }
 
     &__description-content {
         @include font-fahkwang(16px);
-        width: 100%;
+        margin: 0;
+    }
+
+    &__description-list {
+        @include font-fahkwang(16px);
+        padding-left: 20px;
+    }
+
+    &__description-list-item {
         margin-top: 10px;
-        margin-bottom: 22px;
     }
 
     &__about {

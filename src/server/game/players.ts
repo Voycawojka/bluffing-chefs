@@ -23,3 +23,7 @@ export class InGamePlayer {
         this.username = player.username
     }
 }
+
+export function isUsernameTaken(name: string): boolean {
+    return !!Object.values(players).find(player => player.username === name)
+}
