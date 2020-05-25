@@ -65,16 +65,16 @@ const Chat = (props: { firstPrompt: MessageType }) => {
                 <button 
                     onClick={event => toggleKeyVisibility(event)} 
                     className={`chat__key-toggle`}
-                    type="button"
+                    type='button'
                 >
-                    <i className="fas fa-info"></i>
+                    <i className='fas fa-info'></i>
                 </button>
                 <button
                     className='chat__submit'
                     type='submit'
                     disabled={!stringInRange(message, 1, 100)}
                 >
-                    <i className="fas fa-paper-plane"></i>
+                    <i className='fas fa-paper-plane'></i>
                 </button>
 
             </form>

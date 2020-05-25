@@ -1,0 +1,32 @@
+.privacy {
+    margin: 20px 10%;
+
+    &__heading {
+        @include font-rammeto(20px);
+        text-align: center;
+    }
+
+    &__content-heading {
+        @include font-faustina(18px);
+    }
+
+    &__content {
+        @include font-faustina(16px);
+    }
+
+    &__link {
+        @include font-faustina(16px);
+        color: $link-color;
+
+        &:hover {
+            color: $link-hover-color;
+        }
+
+        &--in-text{
+            &::before {
+                display: inline-block;
+                content: $nbsp;
+            }
+        }
+    }
+}
