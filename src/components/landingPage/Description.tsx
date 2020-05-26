@@ -18,14 +18,6 @@ const Description = () => {
                     trade... but are you sure this guy really has that mustard you need?
                 </li>
             </ul>
-            {/* <p className='landing-page__description-content'>
-                Apart from just chatting, you can claim your items dad df sd sd
-                dsf dsfs dfs df 
-                gdf gdf gdfg dfg dfg
-                sdfdsf
-                fsdsf 
-                sdfsd sfs sf dfsdf dsf dsf dsf sdf sdf sdf dsf 
-            </p> */}
         </div>
     )
 }

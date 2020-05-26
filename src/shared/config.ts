@@ -5,7 +5,7 @@ export default {
     // lobby
     minPlayers: 3,
     maxPlayers: 6,
-    waitTimeForMorePlayers: 5000,
+    waitTimeForMorePlayers: 15000,
 
     // game
     welcomePrompt: 'Chat with opponents. "Claim" items to announce you have them. Not necessarily truthfully ;). Claimed items can be traded.'
