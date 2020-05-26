@@ -3,6 +3,7 @@ import { MessageType } from '../../shared/model/message'
 import UserMessage from './UserMessage'
 import ItemDeclaration from './ItemDeclaration'
 import Transaction from './Transaction'
+import Prompt from './Prompt'
 
 const Message = (
     props: {
@@ -18,6 +19,8 @@ const Message = (
                 return <ItemDeclaration message={props.message}/>
             case 'transaction':
                 return <Transaction message={props.message}/>
+            case 'prompt':
+                return <Prompt message={props.message} />
         }
     })()
 

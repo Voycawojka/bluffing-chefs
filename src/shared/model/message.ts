@@ -25,4 +25,9 @@ export interface Transaction {
     user2: Trader
 }
 
-export type MessageType = UserMessage | ItemDeclaration | Transaction
+export interface Prompt {
+    type: 'prompt',
+    content: string
+}
+
+export type MessageType = UserMessage | ItemDeclaration | Transaction | Prompt

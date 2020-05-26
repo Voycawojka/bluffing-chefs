@@ -13,7 +13,7 @@ export function subscribeForRandomQueueSize(onUpdate: Callback<number>): Unsubsc
     return subscribe(socket, 'matchMaking/queue/size', onUpdate)
 }
 
-export function joinRandomQueue(username: string): Promise<void> {
+export function joinRandomQueue(username: string): Promise<string> {
     return performAction({
         socket,
         reqEvent: 'matchMaking/queue/join',

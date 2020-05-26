@@ -15,12 +15,12 @@ const KnownItem = (
     const [claimPossibilitiesVisible, setClaimPossibilitiesVisible ] = useState(false)
 
     return (
-        <div className='items__item  items__item--player-item'>
-            <p className='items__item-label'>{props.item.name}</p>
-            <img className='items__item-image' src={`./assets/items/${props.item.name}.png`} />
+        <div className='items__item items__item--resizeable'>
+            <p className='items__item-label items__item-label--resizeable'>{props.item.name}</p>
+            <img className='items__item-image items__item-image--resizeable' src={`./assets/items/${props.item.name}.png`} />
             <button  
                 onClick={() => setClaimPossibilitiesVisible(true)}
-                className='items__item-button'
+                className='items__item-button items__item-button--resizeable'
             >
                 claim as
             </button>

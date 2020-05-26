@@ -6,9 +6,9 @@ import { MessageType } from '../../shared/model/message'
 import Message from './Message'
 import * as api from '../../client/api'
 
-const Chat = () => {
+const Chat = (props: { firstPrompt: MessageType }) => {
     const [message, setMessage, resetMessage] = useInputChange(100, '')
-    const [conversation, setConversation] = useState<MessageType[]>([])
+    const [conversation, setConversation] = useState([props.firstPrompt])
     const [keyVisibility, setKeyVisibility] = useState(true)
     const conversationRef = useRef<HTMLDivElement>(null)
 
@@ -59,6 +59,7 @@ const Chat = () => {
                     className='chat__input'
                     type='text'
                     value={message}
+                    placeholder='Make deals!'
                     onChange={setMessage}
                 />
                 <button 

@@ -9,9 +9,15 @@ import Offers from '../offers/Offers'
 import EndGame from '../endGame/EndGame'
 import { Victory } from '../../shared/model/game'
 import { registerVirtualPageView } from '../../utils/analytics'
+import config from '../../shared/config'
+import { sortAlphabeticaly } from '../../shared/utils/sortUtils'
+
+enum Tab {
+    Collect, Pool
+}
 
 const Game = () => {
-    const [currentDisplay, setCurrentDisplay] = useState(true)
+    const [currentDisplay, setCurrentDisplay] = useState(Tab.Collect)
     const [endGameData, setEndGameData] = useState<Victory | null>(null)
     const gameContext = useContext(GameContext)
     
@@ -36,17 +42,17 @@ const Game = () => {
             </div> 
         )
 
-        const renderItems = currentDisplay 
-            ? <div className="items__list items__list--scrollable">  
+        const renderItems = currentDisplay === Tab.Collect
+            ? <div className="items__list">  
                 {gameContext.neededItems.map(item => <DisplayItem item={item} />)}
             </div>
             : <div className="items__list items__list--scrollable">
-                {gameContext.allItems.map(item => <DisplayItem item={item} />)}
+                {gameContext.allItems.sort(sortAlphabeticaly).map(item => <DisplayItem item={item} />)}
             </div>
 
         return (
             <div className='game'>
-                <Chat />
+                <Chat firstPrompt={{ type: 'prompt', content: config.welcomePrompt }} />
                 <div className='game__content'>
                     <div className="items__list">    
                         <Items items={gameContext.items} />
@@ -54,15 +60,15 @@ const Game = () => {
 
                     <div className='game__item-display'>
                         <button 
-                            className={`game__button game__button--left game__button--left-${currentDisplay ? 'active' : 'inactive'}`}  
-                            onClick={() => setCurrentDisplay(true)}
+                            className={`game__button game__button--left game__button--left-${currentDisplay === Tab.Collect ? 'active' : 'inactive'}`}  
+                            onClick={() => setCurrentDisplay(Tab.Collect)}
                         >
                         collect
                         </button>
 
                         <button 
-                            className={`game__button game__button--right-${currentDisplay ? 'inactive' : 'active'}`}
-                            onClick={() => setCurrentDisplay(false)}
+                            className={`game__button game__button--right-${currentDisplay === Tab.Pool ? 'active' : 'inactive'}`}
+                            onClick={() => setCurrentDisplay(Tab.Pool)}
                         >
                         pool
                         </button>
