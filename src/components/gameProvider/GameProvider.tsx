@@ -126,19 +126,14 @@ const GameProvider = (
             })
         }
 
-        setOffers(offers => {
-            const clonedOffers = [...offers]
+        setOffers(offers => offers.filter(offer => {
+            const isGivenItemFromUser1 = offer.from === transaction.user1.name && offer.offeredItemIndex === transaction.user1.item.index
+            const isGivenItemFromUser2 = offer.from === transaction.user2.name && offer.offeredItemIndex === transaction.user2.item.index
+            const isReceivedItemToUser1 = offer.to === transaction.user1.name && offer.forItemIndex === transaction.user1.item.index
+            const isReceivedItemToUser2 = offer.to === transaction.user2.name && offer.forItemIndex === transaction.user2.item.index
 
-            const newOffers = clonedOffers.filter(offer => {
-                const condition1 = offer.from === transaction.user1.name && offer.offeredItemIndex === transaction.user1.item.index
-                const condition2 = offer.from === transaction.user2.name && offer.offeredItemIndex === transaction.user2.item.index
-                const condition3 = offer.to === transaction.user1.name && offer.forItemIndex === transaction.user1.item.index
-                const condition4 = offer.to === transaction.user2.name && offer.forItemIndex === transaction.user2.item.index
-
-                return !(condition1 || condition2 || condition3 || condition4)
-            })
-            return newOffers
-        })
+            return !isGivenItemFromUser1 && !isGivenItemFromUser2 && !isReceivedItemToUser1 && !isReceivedItemToUser2
+        }))
     }
     
     // handle my transactions
