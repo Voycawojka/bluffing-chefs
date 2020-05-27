@@ -41,7 +41,7 @@ export function setupLobby(player: Player) {
     const socket = player.socket
 
     socket.on('matchMaking/queue/join', (username: string) => {
-        if (isUsernameTaken(username)) {
+        if (isUsernameTaken(username) && players[socket.id].username !== username) {
             // TODO remove this and just forbid duplicate usernames (requires frontend work too)
             username = makeUniqueUsername(username)
         }
