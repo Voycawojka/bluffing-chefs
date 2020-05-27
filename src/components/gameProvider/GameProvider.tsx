@@ -97,10 +97,10 @@ const GameProvider = (
 
     const deleteOffer = (id: string) => {
         setOffers(offers => {
-            const clonedOffer = [...offers]
+            const clonedOffers = [...offers]
 
-            clonedOffer.splice(clonedOffer.findIndex(offer => offer.id === id), 1)
-            return clonedOffer
+            clonedOffers.splice(clonedOffers.findIndex(offer => offer.id === id), 1)
+            return clonedOffers
         })  
     }
 
@@ -125,6 +125,20 @@ const GameProvider = (
                 })
             })
         }
+
+        setOffers(offers => {
+            const clonedOffers = [...offers]
+
+            const newOffers = clonedOffers.filter(offer => {
+                const condition1 = offer.from === transaction.user1.name && offer.offeredItemIndex === transaction.user1.item.index
+                const condition2 = offer.from === transaction.user2.name && offer.offeredItemIndex === transaction.user2.item.index
+                const condition3 = offer.to === transaction.user1.name && offer.forItemIndex === transaction.user1.item.index
+                const condition4 = offer.to === transaction.user2.name && offer.forItemIndex === transaction.user2.item.index
+
+                return !(condition1 || condition2 || condition3 || condition4)
+            })
+            return newOffers
+        })
     }
     
     // handle my transactions
