@@ -6,6 +6,8 @@ import { Server } from 'socket.io'
 
 function tryCreateGame(io: Server) {
     if (queue.length >= config.minPlayers) {
+        const waitTime = queue.length < config.maxPlayers ? config.waitTimeForMorePlayers : 0
+
         setTimeout(() => {
             const players = queue.retrievePlayers(config.minPlayers, config.maxPlayers)
 
@@ -23,7 +25,7 @@ function tryCreateGame(io: Server) {
 
             game.emitToPlayers('matchMaking/joinedGame')
             queue.emitSize(io)
-        }, config.waitTimeForMorePlayers)
+        }, waitTime)
     }
 }
 
