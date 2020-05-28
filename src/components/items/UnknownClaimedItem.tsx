@@ -16,7 +16,10 @@ const UnknownClaimedItem = (
     const unproposedClaims = gameContext.items
         .filter(item => item.type === 'known-claimed-item') 
         .filter(item =>
-            !gameContext.offers.find(offer => offer.offeredItemIndex === gameContext.items.indexOf(item))
+            !gameContext.offers.find(offer => 
+                offer.offeredItemIndex === gameContext.items.indexOf(item) &&
+                offer.from === gameContext.userName
+            )
         ) as KnownClaimedItem[]
 
     return (

@@ -10,6 +10,7 @@
     padding: 20px;
     border: 1px solid $black-color;
     border-radius: 10px;
+    z-index: 500;
 
     &__exit-button {
         @include modal-exit-button;
