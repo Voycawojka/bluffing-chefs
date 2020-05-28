@@ -9,9 +9,7 @@ const Lobby = (
 ) => {
     const context = useContext(AppContext)
 
-    const [ playerAmount, setPlayerAmount ] = useState(0)
-    const [ waitTime, setWaitTime ] = useState(config.waitTimeForMorePlayers)
-    
+    const [ playerAmount, setPlayerAmount ] = useState(0) 
 
     useEffect(() => {
         const unsubQueueSize = api.subscribeForRandomQueueSize(amount => setPlayerAmount(amount))
@@ -24,30 +22,10 @@ const Lobby = (
         }
     }, [])
 
-    useEffect(() => {
-        let waitTimeIntervalId: null | number = null
-
-        if (playerAmount >= config.minPlayers && waitTimeIntervalId === null) {
-            waitTimeIntervalId = window.setInterval(() => setWaitTime(currentWaitTime => currentWaitTime - 1000), 1000)
-        }
-        
-        if (playerAmount < config.minPlayers && waitTimeIntervalId !== null) {
-            window.clearInterval(waitTimeIntervalId)
-            waitTimeIntervalId = null
-            setWaitTime(config.waitTimeForMorePlayers)
-        }
-
-        return () => {
-            if (waitTimeIntervalId) {
-                window.clearInterval(waitTimeIntervalId)
-            }
-        }
-    }, [playerAmount])
-
     const renderContent = playerAmount >= config.minPlayers
         ? <>
             <p className='lobby__content-paragraph'>Enough players found.</p> 
-            <p className='lobby__content-paragraph'>The game will start in {Math.floor(waitTime / 1000)} seconds</p>
+            <p className='lobby__content-paragraph'>The game will start in {Math.floor(config.waitTimeForMorePlayers / 1000)} seconds</p>
         </>
         : <>
             <p className='lobby__content-paragraph'>Found: {playerAmount} </p>
