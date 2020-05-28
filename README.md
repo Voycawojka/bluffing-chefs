@@ -1,3 +1,5 @@
+![Heroku](https://pyheroku-badge.herokuapp.com/?app=bluffing-chefs&style=flat)
+
 # Dev setup
 
 ## Dependencies
