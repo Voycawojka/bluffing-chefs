@@ -1,11 +1,12 @@
 import availableItems from '../data/items.json'
-import { Player, InGamePlayer } from './players'
+import { Player, InGamePlayer, players } from './players'
 import { Server } from 'socket.io'
 import { MessageType, UserMessage } from '../../shared/model/message'
 import { StartingData, ClaimItemRequest, ClaimItemSuccessResponse, OfferRequest, OfferSuccessResponse, CancelOfferResponse, ErrorResponse, RejectOfferResponse, AcceptOfferResponse, Victory } from '../../shared/model/game'
 import { KnownClaimedItem, UnknownClaimedItem, Indexed, KnownItem } from '../../shared/model/item'
 import { Market } from './market'
 import { getRandomItems, Item } from './items'
+import { setupLobby } from '../lobby/lobby'
 
 export const games: Game[] = []
 
@@ -97,6 +98,13 @@ export class Game {
             }
             this.emitToPlayers('game/end', victory)
             games.splice(games.indexOf(this), 1)
+            
+            this.players
+                .map(inGamePlayer => inGamePlayer.socket)
+                .map(socket => players[socket.id])
+                .forEach(player => {
+                    setupLobby(player)
+                })
         }
     }
 
