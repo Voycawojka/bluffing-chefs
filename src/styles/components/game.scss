@@ -47,6 +47,8 @@
         border: none;
         background-color: transparent;
         border-bottom: 2px solid $black-color;
+        
+        cursor: pointer;
 
         &--left-inactive {
             border-right: 2px solid $black-color;
