@@ -13,7 +13,9 @@ const LandingPage = () => {
 
     return (
         <div className='landing-page'>
-            <img className='landing-page__title' src='./assets/logo.png'></img>
+            <h1 className='landing-page__title'>
+                <img className='landing-page__title-image' src='./assets/logo.png' alt="Bluffing Chefs"/>
+            </h1>
             {inQueue ? <Lobby /> : <GameEnter setInQueue={setInQueue} /> }
             <Description />
             <About />
