@@ -11,7 +11,7 @@ const CookiePopup = () => {
     }, [])
 
     function handleExit() {
-        Cookies.set('cookies-acknowledged', 'true')
+        Cookies.set('cookies-acknowledged', 'true', { expires: 1000 })
 
         setIsCookiesAcknowledged(true)
     }
