@@ -29,7 +29,7 @@ const GameEnter = (
     function joinRandomQueue(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        Cookies.set('nickname', name)
+        Cookies.set('nickname', name, { expires: 1000 })
         registerEvent('join_queue')
 
         api.joinRandomQueue(name)
