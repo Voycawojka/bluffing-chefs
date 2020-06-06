@@ -19,6 +19,11 @@ const EndGame = (
         <Victor data={victor} key={victor.username}/>
     )
 
+    function handleExit() {
+        appContext.setStatus('start')
+        gameContext.resetGameData()
+    }
+
     return (
         <div className='end-game'>
             <div className='end-game__content'>
@@ -33,7 +38,7 @@ const EndGame = (
                 {renderVictors}
 
                 <button 
-                    onClick={() => appContext.setStatus('start')}
+                    onClick={handleExit}
                     className='end-game__back-button'
                 >
                 back to menu

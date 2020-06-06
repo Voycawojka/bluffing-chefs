@@ -22,7 +22,8 @@ export interface GameData {
     setOffers: React.Dispatch<React.SetStateAction<Offer[]>>
     handleTransactionFromMessage: (transaction: Transaction) =>  void
     deleteOffer: (id: string) => void
-    handleTransactionsFromPersonalOffers: (offerResponse: AcceptOfferSuccessResponse, offersObject: Offer[]) => void
+    handleTransactionsFromPersonalOffers: (offerResponse: AcceptOfferSuccessResponse, offersObject: Offer[]) => void,
+    resetGameData: () => void
 }
 
 export const GameContext = React.createContext<GameData>({} as GameData)
@@ -168,6 +169,15 @@ const GameProvider = (
         }
 
     }
+
+    const resetGameData = () => {
+        setItems([])
+        setNeededItems([])
+        setAllItems([])
+        setOpponents([])
+        setUserName('')
+        setOffers([])
+    }
     
     return (
         <GameContext.Provider value={{
@@ -183,7 +193,8 @@ const GameProvider = (
             setUserName,
             handleTransactionFromMessage,
             deleteOffer,
-            handleTransactionsFromPersonalOffers
+            handleTransactionsFromPersonalOffers,
+            resetGameData
         }}>
             {props.children}
         </GameContext.Provider>
