@@ -2,6 +2,7 @@
   "name": "bluffing-chefs",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "watch:front": "parcel watch src/index.html --out-dir dist/public",
@@ -24,6 +25,7 @@
     "url": "https://github.com/Voycawojka/bluffing-chefs/issues"
   },
   "homepage": "https://github.com/Voycawojka/bluffing-chefs#readme",
+  "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "@types/express": "^4.17.6",
     "@types/jest": "^25.2.1",
